@@ -1,7 +1,4 @@
 import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
 import "./App.css";
 import Card from "./Reusable_components/Card/Card";
 import Textarea from "./Reusable_components/Textarea/Textarea";
@@ -15,13 +12,14 @@ import {
   FiTrash2,
 } from "react-icons/fi";
 import Button from "./Reusable_components/Button/Button";
+import Landing from "./Pages/Landing/Landing";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-     
+      <Landing />
     </>
   );
 }
