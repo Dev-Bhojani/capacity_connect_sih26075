@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   FiArrowRight,
@@ -34,6 +35,8 @@ import competenciesImage from "../../assets/Images/platform-feature6.jpeg";
 import "./Landing.css";
 
 const Landing = () => {
+  const navigate = useNavigate();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -422,7 +425,7 @@ const Landing = () => {
               <button
                 type="button"
                 className="landing__login"
-                onClick={() => handleAction("Login")}
+                onClick={() => navigate("/login")}
               >
                 Login
               </button>
@@ -432,7 +435,7 @@ const Landing = () => {
                 size="sm"
                 rounded="full"
                 className="landing__signup"
-                onClick={() => handleAction("Sign Up")}
+                onClick={() => navigate("/register")}
               >
                 Sign Up
               </Button>
@@ -486,7 +489,7 @@ const Landing = () => {
                   size="md"
                   rounded="full"
                   fullWidth
-                  onClick={() => handleAction("Login")}
+                  onClick={() => navigate("/login")}
                 >
                   Login
                 </Button>
@@ -496,7 +499,7 @@ const Landing = () => {
                   size="md"
                   rounded="full"
                   fullWidth
-                  onClick={() => handleAction("Sign Up")}
+                  onClick={() => navigate("/register")}
                 >
                   Sign Up
                 </Button>
@@ -2576,7 +2579,7 @@ const Landing = () => {
                 rounded="full"
                 rightIcon={<FiArrowRight />}
                 className="cc-kh-cta__primary"
-                onClick={() => handleAction("Get Started")}
+                onClick={() => navigate("/register")}
               >
                 Get Started
               </Button>
@@ -2586,7 +2589,7 @@ const Landing = () => {
                 size="lg"
                 rounded="full"
                 className="cc-kh-cta__secondary"
-                onClick={() => handleAction("Sign In")}
+                onClick={() => navigate("/login")}
               >
                 Sign In
               </Button>

@@ -1,26 +1,40 @@
-import { useState } from "react";
 import "./App.css";
-import Card from "./Reusable_components/Card/Card";
-import Textarea from "./Reusable_components/Textarea/Textarea";
-import SearchBar from "./Reusable_components/SearchBar/SearchBar";
-import ErrorState from "./Reusable_components/ErrorState/ErrorState";
-import Dropdown from "./Reusable_components/Dropdown/Dropdown";
-import {
-  FiBarChart2,
-  FiChevronDown,
-  FiDownload,
-  FiTrash2,
-} from "react-icons/fi";
-import Button from "./Reusable_components/Button/Button";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Landing from "./Pages/Landing/Landing";
+import Register from "./Pages/Auth/Register/Register";
+import Login from "./Pages/Auth/Login/Login";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <Landing />
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Normal Landing Page */}
+        <Route path="/" element={<Landing />} />
+
+        {/* Landing + Login Overlay */}
+        <Route
+          path="/login"
+          element={
+            <>
+              <Landing />
+              <Login />
+            </>
+          }
+        />
+
+        {/* Landing + Register Overlay */}
+        <Route
+          path="/register"
+          element={
+            <>
+              <Landing />
+              <Register />
+            </>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
