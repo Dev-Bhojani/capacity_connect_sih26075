@@ -1,18 +1,30 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// ================================
+// PUBLIC PAGES
+// ================================
 import Landing from "./Pages/Landing/Landing";
 import Register from "./Pages/Auth/Register/Register";
 import Login from "./Pages/Auth/Login/Login";
+
+// ================================
+// LEARNER ROUTES
+// ================================
+import LearnerRoutes from "./routes/LearnerRoutes";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Normal Landing Page */}
+        {/* ========================================
+            PUBLIC PAGES
+        ======================================== */}
+
+        {/* Landing Page */}
         <Route path="/" element={<Landing />} />
 
-        {/* Landing + Login Overlay */}
+        {/* Login Page */}
         <Route
           path="/login"
           element={
@@ -23,7 +35,7 @@ function App() {
           }
         />
 
-        {/* Landing + Register Overlay */}
+        {/* Register Page */}
         <Route
           path="/register"
           element={
@@ -33,6 +45,29 @@ function App() {
             </>
           }
         />
+
+        {/* ========================================
+            LEARNER APPLICATION
+        ======================================== */}
+
+        {/* 
+          All learner routes are handled
+          inside LearnerRoutes.jsx
+
+          Examples:
+          /learner
+          /learner/dashboard
+          /learner/learning
+          /learner/courses
+          /learner/skills
+          /learner/skill-gaps
+          /learner/recommendations
+          /learner/certificates
+          /learner/knowledge-hub
+          /learner/profile
+          /learner/settings
+        */}
+        <Route path="/learner/*" element={<LearnerRoutes />} />
       </Routes>
     </BrowserRouter>
   );
