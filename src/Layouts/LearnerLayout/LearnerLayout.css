@@ -1,6 +1,6 @@
 /* =========================================================
    CAPACITY CONNECT
-   TEMPORARY LEARNER LAYOUT
+   LEARNER LAYOUT
 ========================================================= */
 
 .learner-layout {
@@ -10,31 +10,38 @@
   display: flex;
 
   background: #f4f8fb;
-}
 
+  box-sizing: border-box;
+}
 
 /* =========================================================
    SIDEBAR AREA
 ========================================================= */
 
 .learner-layout > .learner-sidebar {
+  flex: 0 0 auto;
   flex-shrink: 0;
-}
 
+  min-height: 100vh;
+}
 
 /* =========================================================
    MAIN APPLICATION
 ========================================================= */
 
 .learner-main {
-  flex: 1;
+  flex: 1 1 auto;
 
+  width: 0;
   min-width: 0;
+
   min-height: 100vh;
+  height: auto;
 
   box-sizing: border-box;
-}
 
+  overflow: visible;
+}
 
 /* =========================================================
    PAGE CONTENT
@@ -42,9 +49,16 @@
 
 .learner-page-content {
   width: 100%;
+  max-width: 100%;
+
+  min-width: 0;
   min-height: 100vh;
+
+  height: auto;
 
   padding: 24px;
 
   box-sizing: border-box;
+
+  overflow: visible;
 }

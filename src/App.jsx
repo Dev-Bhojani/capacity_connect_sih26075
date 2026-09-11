@@ -13,6 +13,11 @@ import Login from "./Pages/Auth/Login/Login";
 // ================================
 import LearnerRoutes from "./routes/LearnerRoutes";
 
+// ================================
+// TRAINER ROUTES
+// ================================
+import TrainerRoutes from "./routes/TrainerRoutes";
+
 function App() {
   return (
     <BrowserRouter>
@@ -50,7 +55,7 @@ function App() {
             LEARNER APPLICATION
         ======================================== */}
 
-        {/* 
+        {/*
           All learner routes are handled
           inside LearnerRoutes.jsx
 
@@ -68,6 +73,28 @@ function App() {
           /learner/settings
         */}
         <Route path="/learner/*" element={<LearnerRoutes />} />
+
+        {/* ========================================
+            TRAINER APPLICATION
+        ======================================== */}
+
+        {/*
+          All trainer routes are handled
+          inside TrainerRoutes.jsx
+
+          Examples:
+          /trainer
+          /trainer/trainer-learners
+          /trainer/trainer-courses
+          /trainer/trainer-quizzes
+          /trainer/trainer-assignments
+          /trainer/trainer-attendance
+          /trainer/trainer-performance
+          /trainer/trainer-schedule
+          /trainer/trainer-notifications
+          /trainer/trainer-profile
+        */}
+        <Route path="/trainer/*" element={<TrainerRoutes />} />
       </Routes>
     </BrowserRouter>
   );
