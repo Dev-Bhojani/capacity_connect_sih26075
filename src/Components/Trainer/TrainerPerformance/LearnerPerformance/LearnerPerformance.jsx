@@ -25,7 +25,7 @@ import "./LearnerPerformance.css";
 
 /* =========================================================
    LEARNER PERFORMANCE DATA
-   ========================================================= */
+========================================================= */
 
 export const learnerPerformanceData = [
   {
@@ -236,7 +236,7 @@ export const learnerPerformanceData = [
 
 /* =========================================================
    CONSTANTS
-   ========================================================= */
+========================================================= */
 
 const ROWS_PER_PAGE_OPTIONS = [8, 12, 20];
 
@@ -249,7 +249,7 @@ const STATUS_ORDER = {
 
 /* =========================================================
    COMPONENT
-   ========================================================= */
+========================================================= */
 
 const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
   const {
@@ -261,6 +261,7 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
   } = filters;
 
   const [searchValue, setSearchValue] = useState(filterSearch);
+
   const [sortBy, setSortBy] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
 
@@ -305,7 +306,6 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
-
     document.addEventListener("keydown", handleEscape);
 
     return () => {
@@ -492,22 +492,153 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
 
   const handleViewLearner = (learner) => {
     setOpenMenu(null);
+
     onViewLearner?.(learner);
   };
 
   /* =====================================================
+     CSV VALUE FORMATTER
+  ===================================================== */
+
+  const escapeCsvValue = (value) => {
+    const stringValue = String(value ?? "");
+
+    return `"${stringValue.replace(/"/g, '""')}"`;
+  };
+
+  /* =====================================================
+     EXPORT FILE NAME
+  ===================================================== */
+
+  const createExportFileName = () => {
+    const date = new Date().toISOString().split("T")[0];
+
+    return `learner-performance-${date}.csv`;
+  };
+
+  /* =====================================================
      EXPORT
+     ACTUAL BROWSER CSV DOWNLOAD
   ===================================================== */
 
   const handleExport = () => {
+    /*
+      Keep the parent callback available for future
+      integration with backend/API export functionality.
+    */
+
     onExport?.({
       learners: sortedLearners,
+      selectedLearners,
       course: filterCourse,
       batch: filterBatch,
       period: filterPeriod,
       status: filterStatus,
       searchValue,
+      sortBy,
+      sortDirection,
     });
+
+    /*
+      If there are no learners after filtering,
+      there is nothing useful to export.
+    */
+
+    if (sortedLearners.length === 0) {
+      return;
+    }
+
+    /* ===================================================
+       CSV HEADER
+    =================================================== */
+
+    const headers = [
+      "Learner Name",
+      "Learner ID",
+      "Email",
+      "Course",
+      "Batch",
+      "Average Score",
+      "Completion",
+      "Assignments Completed",
+      "Total Assignments",
+      "Assignment Percentage",
+      "Status",
+      "Last Active",
+    ];
+
+    /* ===================================================
+       CSV ROWS
+    =================================================== */
+
+    const rows = sortedLearners.map((learner) => [
+      learner.name,
+      learner.learnerId,
+      learner.email,
+      learner.course,
+      learner.batch,
+      `${learner.score}%`,
+      `${learner.completion}%`,
+      learner.assignmentsCompleted,
+      learner.assignmentsTotal,
+      `${learner.assignments}%`,
+      learner.status,
+      learner.lastActive,
+    ]);
+
+    /* ===================================================
+       BUILD CSV
+    =================================================== */
+
+    const csvContent = [
+      headers.map(escapeCsvValue).join(","),
+      ...rows.map((row) => row.map(escapeCsvValue).join(",")),
+    ].join("\r\n");
+
+    /*
+      UTF-8 BOM helps Excel correctly detect
+      UTF-8 encoded CSV files.
+    */
+
+    const csvWithBom = `\uFEFF${csvContent}`;
+
+    /* ===================================================
+       CREATE DOWNLOAD BLOB
+    =================================================== */
+
+    const blob = new Blob([csvWithBom], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const downloadUrl = URL.createObjectURL(blob);
+
+    /* ===================================================
+       CREATE TEMPORARY DOWNLOAD LINK
+    =================================================== */
+
+    const link = document.createElement("a");
+
+    link.href = downloadUrl;
+
+    link.download = createExportFileName();
+
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+
+    /* ===================================================
+       START DOWNLOAD
+    =================================================== */
+
+    link.click();
+
+    /* ===================================================
+       CLEANUP
+    =================================================== */
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(downloadUrl);
   };
 
   /* =====================================================
@@ -565,11 +696,7 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
       >
         <span>{label}</span>
 
-        {active ? (
-          <LuArrowUpDown size={11} strokeWidth={1.9} />
-        ) : (
-          <LuArrowUpDown size={11} strokeWidth={1.6} />
-        )}
+        <LuArrowUpDown size={11} strokeWidth={active ? 1.9 : 1.6} />
       </button>
     );
   };
@@ -645,6 +772,7 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
 
               <div>
                 <h2>Learners Performance</h2>
+
                 <p>Individual learner performance details.</p>
               </div>
             </div>
@@ -659,7 +787,13 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
 
             <p>No learners match the current performance filters.</p>
 
-            <button type="button" onClick={() => setSearchValue("")}>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchValue("");
+                setCurrentPage(1);
+              }}
+            >
               <LuX size={14} strokeWidth={1.8} />
               Clear Search
             </button>
@@ -668,6 +802,10 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
       </section>
     );
   }
+
+  /* =====================================================
+     MAIN RENDER
+  ===================================================== */
 
   return (
     <section className="learner-performance">
@@ -708,10 +846,15 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
               </div>
             </div>
 
+            {/* =================================================
+                WORKING EXPORT BUTTON
+            ================================================= */}
+
             <button
               type="button"
               className="learner-export-button"
               onClick={handleExport}
+              title="Export learner performance as CSV"
             >
               <LuFileDown size={14} strokeWidth={1.8} />
 
@@ -759,6 +902,7 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
               value={searchValue}
               onChange={(event) => {
                 setSearchValue(event.target.value);
+
                 setCurrentPage(1);
               }}
               placeholder="Search learner, email or ID..."
@@ -826,7 +970,9 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
                     <span className="performance-table-heading">Email</span>
                   </th>
 
-                  <th>{renderSortButton("Course", "name")}</th>
+                  <th>
+                    <span className="performance-table-heading">Course</span>
+                  </th>
 
                   <th>
                     <span className="performance-table-heading">Batch</span>
@@ -1038,7 +1184,9 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
                               type="button"
                               onClick={() => {
                                 setSearchValue(learner.name);
+
                                 setOpenMenu(null);
+
                                 setCurrentPage(1);
                               }}
                             >
@@ -1114,6 +1262,7 @@ const LearnerPerformance = ({ filters = {}, onViewLearner, onExport }) => {
                           setSearchValue(learner.name);
 
                           setOpenMenu(null);
+
                           setCurrentPage(1);
                         }}
                       >

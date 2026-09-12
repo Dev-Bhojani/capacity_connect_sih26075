@@ -54,6 +54,11 @@ const TrainerSidebar = () => {
       icon: LuCalendarDays,
     },
     {
+      label: "Learner Schedule",
+      path: "/trainer/learner-schedule",
+      icon: LuCalendarDays,
+    },
+    {
       label: "Trainer Profile",
       path: "/trainer/trainer-profile",
       icon: LuUserRound,

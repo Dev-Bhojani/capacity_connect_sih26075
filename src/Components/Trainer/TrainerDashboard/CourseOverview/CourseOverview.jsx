@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   LuGraduationCap,
@@ -101,6 +102,16 @@ const recentCourses = [
 // =====================================================
 
 const CourseOverview = () => {
+  const navigate = useNavigate();
+
+  // ===================================================
+  // NAVIGATION
+  // ===================================================
+
+  const handleViewAllCourses = () => {
+    navigate("/trainer/trainer-courses");
+  };
+
   return (
     <section className="trainer-course-overview">
       {/* =================================================
@@ -120,7 +131,11 @@ const CourseOverview = () => {
           </div>
         </div>
 
-        <button type="button" className="course-overview-view-button">
+        <button
+          type="button"
+          className="course-overview-view-button"
+          onClick={handleViewAllCourses}
+        >
           <span>View All Courses</span>
           <LuArrowRight />
         </button>
@@ -330,7 +345,11 @@ const CourseOverview = () => {
               </div>
             </div>
 
-            <button type="button" className="recent-courses-view-button">
+            <button
+              type="button"
+              className="recent-courses-view-button"
+              onClick={handleViewAllCourses}
+            >
               <span>View All</span>
               <LuArrowRight />
             </button>

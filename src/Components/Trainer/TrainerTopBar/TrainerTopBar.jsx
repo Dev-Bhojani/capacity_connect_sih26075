@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   LuMenu,
@@ -8,13 +9,14 @@ import {
   LuCircleHelp,
   LuChevronDown,
   LuUser,
-  LuSettings,
   LuLogOut,
 } from "react-icons/lu";
 
 import "./TrainerTopBar.css";
 
 const TrainerTopBar = () => {
+  const navigate = useNavigate();
+
   const [searchValue, setSearchValue] = useState("");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -57,6 +59,36 @@ const TrainerTopBar = () => {
 
   const toggleProfileMenu = () => {
     setShowProfileMenu((prev) => !prev);
+  };
+
+  /* =========================================================
+     MY PROFILE
+  ========================================================= */
+
+  const handleMyProfile = () => {
+    setShowProfileMenu(false);
+
+    navigate("/trainer/trainer-profile");
+  };
+
+  /* =========================================================
+     LOGOUT
+  ========================================================= */
+
+  const handleLogout = () => {
+    setShowProfileMenu(false);
+
+    /*
+      Clear authentication/session data here when
+      backend authentication is connected.
+    */
+
+    window.dispatchEvent(new CustomEvent("trainer-logout"));
+
+    /*
+      Redirect trainer to the landing page.
+    */
+    navigate("/");
   };
 
   /* =========================================================
@@ -122,6 +154,7 @@ const TrainerTopBar = () => {
 
       <div className="trainer-topbar-left">
         {/* Sidebar Menu */}
+
         <button
           type="button"
           className="trainer-menu-button"
@@ -137,11 +170,13 @@ const TrainerTopBar = () => {
 
         <div className="trainer-search">
           {/* Search Icon */}
+
           <div className="trainer-search-icon">
             <LuSearch />
           </div>
 
           {/* Search Input */}
+
           <input
             ref={searchInputRef}
             type="text"
@@ -211,6 +246,7 @@ const TrainerTopBar = () => {
         </button>
 
         {/* Divider */}
+
         <div className="trainer-topbar-divider"></div>
 
         {/* =================================================
@@ -219,6 +255,7 @@ const TrainerTopBar = () => {
 
         <div className="trainer-profile-wrapper" ref={profileRef}>
           {/* Profile Button */}
+
           <button
             type="button"
             className={`trainer-profile ${
@@ -230,6 +267,7 @@ const TrainerTopBar = () => {
             aria-label="Open trainer profile menu"
           >
             {/* Avatar */}
+
             <div className="trainer-avatar">
               <img
                 src="https://i.pravatar.cc/100?img=12"
@@ -238,6 +276,7 @@ const TrainerTopBar = () => {
             </div>
 
             {/* Trainer Information */}
+
             <div className="trainer-profile-info">
               <span className="trainer-profile-name">Rohan Mehta</span>
 
@@ -245,6 +284,7 @@ const TrainerTopBar = () => {
             </div>
 
             {/* Dropdown Arrow */}
+
             <LuChevronDown
               className={`trainer-profile-arrow ${
                 showProfileMenu ? "arrow-up" : ""
@@ -259,6 +299,7 @@ const TrainerTopBar = () => {
           {showProfileMenu && (
             <div className="trainer-profile-dropdown" role="menu">
               {/* Dropdown Header */}
+
               <div className="trainer-dropdown-header">
                 <div className="trainer-dropdown-avatar">
                   <img
@@ -275,38 +316,33 @@ const TrainerTopBar = () => {
               </div>
 
               {/* Divider */}
+
               <div className="trainer-dropdown-divider"></div>
 
               {/* My Profile */}
+
               <button
                 type="button"
                 className="trainer-dropdown-item"
                 role="menuitem"
+                onClick={handleMyProfile}
               >
                 <LuUser />
 
                 <span>My Profile</span>
               </button>
 
-              {/* Settings */}
-              <button
-                type="button"
-                className="trainer-dropdown-item"
-                role="menuitem"
-              >
-                <LuSettings />
-
-                <span>Settings</span>
-              </button>
-
               {/* Divider */}
+
               <div className="trainer-dropdown-divider"></div>
 
               {/* Logout */}
+
               <button
                 type="button"
                 className="trainer-dropdown-item dropdown-logout"
                 role="menuitem"
+                onClick={handleLogout}
               >
                 <LuLogOut />
 

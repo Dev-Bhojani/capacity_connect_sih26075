@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import {
   LuClipboardList,
   LuCalendarDays,
-  LuChevronDown,
   LuEllipsis,
   LuFileText,
   LuMessageSquare,
@@ -15,7 +14,6 @@ import {
   LuArrowRight,
   LuTarget,
   LuX,
-  LuCheck,
   LuTrash2,
 } from "react-icons/lu";
 
@@ -111,14 +109,6 @@ const PendingTasks = () => {
   const [showAll, setShowAll] = useState(false);
 
   // ===================================================
-  // FILTER STATE
-  // ===================================================
-
-  const [selectedFilter, setSelectedFilter] = useState("This Week");
-
-  const [showFilter, setShowFilter] = useState(false);
-
-  // ===================================================
   // TASK MENU STATE
   // ===================================================
 
@@ -131,37 +121,12 @@ const PendingTasks = () => {
   const [showOrganizationTip, setShowOrganizationTip] = useState(false);
 
   // ===================================================
-  // PERIOD DROPDOWN REF
-  // ===================================================
-
-  const periodRef = useRef(null);
-
-  // ===================================================
-  // CLOSE PERIOD DROPDOWN ON OUTSIDE CLICK
-  // ===================================================
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (periodRef.current && !periodRef.current.contains(event.target)) {
-        setShowFilter(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
-
-  // ===================================================
   // CLOSE MENUS WITH ESCAPE
   // ===================================================
 
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
-        setShowFilter(false);
         setOpenTaskMenu(null);
       }
     };
@@ -239,16 +204,6 @@ const PendingTasks = () => {
   };
 
   // ===================================================
-  // FILTER CHANGE
-  // ===================================================
-
-  const handleFilterChange = (filter) => {
-    setSelectedFilter(filter);
-
-    setShowFilter(false);
-  };
-
-  // ===================================================
   // RENDER
   // ===================================================
 
@@ -269,50 +224,6 @@ const PendingTasks = () => {
 
             <p>Tasks that need your attention</p>
           </div>
-        </div>
-
-        {/* ===============================================
-            WEEK FILTER
-        =============================================== */}
-
-        <div className="period-dropdown-wrapper" ref={periodRef}>
-          <button
-            type="button"
-            className={`pending-filter-button ${
-              showFilter ? "filter-active" : ""
-            }`}
-            onClick={() => setShowFilter((previous) => !previous)}
-            aria-expanded={showFilter}
-            aria-haspopup="menu"
-          >
-            <LuCalendarDays />
-
-            <span>{selectedFilter}</span>
-
-            <LuChevronDown className={showFilter ? "filter-arrow-up" : ""} />
-          </button>
-
-          {/* =============================================
-              FILTER MENU
-          ============================================= */}
-
-          {showFilter && (
-            <div className="pending-filter-menu" role="menu">
-              {["This Week", "Next Week", "All Tasks"].map((filter) => (
-                <button
-                  key={filter}
-                  type="button"
-                  className={selectedFilter === filter ? "selected-filter" : ""}
-                  onClick={() => handleFilterChange(filter)}
-                  role="menuitem"
-                >
-                  <span>{filter}</span>
-
-                  {selectedFilter === filter && <LuCheck />}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 

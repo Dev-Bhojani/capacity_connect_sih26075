@@ -27,7 +27,12 @@ import QuizDetails from "../Pages/Trainer/QuizDetails/QuizDetails";
 import TrainerAttendance from "../Pages/Trainer/TrainerAttendance/TrainerAttendance";
 import TrainerPerformance from "../Pages/Trainer/TrainerPerformance/TrainerPerformance";
 import TrainerSchedule from "../Pages/Trainer/TrainerSchedule/TrainerSchedule";
+import LearnerSchedule from "../Pages/Trainer/LearnerSchedule/LearnerSchedule";
 import TrainerProfile from "../Pages/Trainer/TrainerProfile/TrainerProfile";
+
+// ========================================
+// Trainer Routes
+// ========================================
 
 const TrainerRoutes = () => {
   return (
@@ -80,10 +85,22 @@ const TrainerRoutes = () => {
         <Route path="trainer-schedule" element={<TrainerSchedule />} />
 
         {/* ========================================
+            Learner Schedule
+        ======================================== */}
+
+        <Route path="learner-schedule" element={<LearnerSchedule />} />
+
+        {/* ========================================
             Trainer Profile
         ======================================== */}
 
         <Route path="trainer-profile" element={<TrainerProfile />} />
+
+        {/* ========================================
+            Trainer Pending Tasks
+        ======================================== */}
+
+        {/* Pending Tasks route can be added here when its page is created */}
 
         {/* ========================================
             Trainer 404

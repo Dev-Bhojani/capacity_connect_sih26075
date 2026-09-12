@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
   LuCalendarDays,
-  LuChevronDown,
   LuChevronLeft,
   LuChevronRight,
   LuClock3,
@@ -62,65 +61,193 @@ const sessions = [
 ];
 
 // =====================================================
-// CALENDAR DATA
+// EVENT DATE DATA
 // =====================================================
 
-const calendarDays = [
-  { day: 23, muted: true },
-  { day: 24, muted: true },
-  { day: 25, muted: true },
-  { day: 26, muted: true },
-  { day: 27, muted: true },
-  { day: 28, muted: true },
-  { day: 1 },
+const calendarEvents = {
+  "2025-03-11": "purple",
+  "2025-03-12": "green",
+  "2025-03-13": "orange",
+  "2025-03-14": "red",
+};
 
-  { day: 2 },
-  { day: 3 },
-  { day: 4 },
-  { day: 5 },
-  { day: 6 },
-  { day: 7 },
-  { day: 8 },
+// =====================================================
+// DATE HELPERS
+// =====================================================
 
-  { day: 9 },
-  { day: 10, active: true },
-  { day: 11, event: "blue" },
-  { day: 12, event: "green" },
-  { day: 13, event: "orange" },
-  { day: 14, event: "red" },
-  { day: 15 },
+const getDateKey = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
 
-  { day: 16 },
-  { day: 17 },
-  { day: 18 },
-  { day: 19 },
-  { day: 20 },
-  { day: 21 },
-  { day: 22 },
+  return `${year}-${month}-${day}`;
+};
 
-  { day: 23 },
-  { day: 24 },
-  { day: 25 },
-  { day: 26 },
-  { day: 27 },
-  { day: 28 },
-  { day: 29 },
-];
+const isSameDate = (dateOne, dateTwo) => {
+  return (
+    dateOne.getFullYear() === dateTwo.getFullYear() &&
+    dateOne.getMonth() === dateTwo.getMonth() &&
+    dateOne.getDate() === dateTwo.getDate()
+  );
+};
 
 // =====================================================
 // UPCOMING SESSIONS
 // =====================================================
 
 const UpcomingSessions = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState("This Week");
-  const [calendarMonth, setCalendarMonth] = useState("March 2025");
+  const today = new Date();
+
+  // ===================================================
+  // CALENDAR STATE
+  // ===================================================
+
+  const [currentMonth, setCurrentMonth] = useState(
+    new Date(today.getFullYear(), today.getMonth(), 1),
+  );
+
+  const [selectedDate, setSelectedDate] = useState(today);
+
+  // ===================================================
+  // CALENDAR MONTH / YEAR
+  // ===================================================
+
+  const calendarMonth = currentMonth.toLocaleString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+
+  // ===================================================
+  // PREVIOUS MONTH
+  // ===================================================
 
   const handlePreviousMonth = () => {
-    setCalendarMonth("February 2025");
+    setCurrentMonth(
+      (previousMonth) =>
+        new Date(previousMonth.getFullYear(), previousMonth.getMonth() - 1, 1),
+    );
   };
 
+  // ===================================================
+  // NEXT MONTH
+  // ===================================================
+
   const handleNextMonth = () => {
-    setCalendarMonth("April 2025");
+    setCurrentMonth(
+      (nextMonth) =>
+        new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 1),
+    );
+  };
+
+  // ===================================================
+  // SELECT DATE
+  // ===================================================
+
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+
+    // If the user clicks a date belonging to the
+    // previous or next month, automatically move
+    // the calendar to that month.
+    if (
+      date.getMonth() !== currentMonth.getMonth() ||
+      date.getFullYear() !== currentMonth.getFullYear()
+    ) {
+      setCurrentMonth(new Date(date.getFullYear(), date.getMonth(), 1));
+    }
+  };
+
+  // ===================================================
+  // GENERATE CALENDAR DAYS
+  // ===================================================
+
+  const calendarDays = useMemo(() => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+
+    // First day of the current month
+    const firstDayOfMonth = new Date(year, month, 1);
+
+    // Last day of the current month
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+
+    // Sunday = 0
+    // Monday = 1
+    // ...
+    // Saturday = 6
+    const startingDay = firstDayOfMonth.getDay();
+
+    const totalDaysInMonth = lastDayOfMonth.getDate();
+
+    // Number of days in the previous month
+    const previousMonthLastDay = new Date(year, month, 0).getDate();
+
+    const days = [];
+
+    // =================================================
+    // PREVIOUS MONTH DAYS
+    // =================================================
+
+    for (let index = startingDay - 1; index >= 0; index--) {
+      const day = previousMonthLastDay - index;
+
+      const date = new Date(year, month - 1, day);
+
+      days.push({
+        date,
+        day,
+        muted: true,
+      });
+    }
+
+    // =================================================
+    // CURRENT MONTH DAYS
+    // =================================================
+
+    for (let day = 1; day <= totalDaysInMonth; day++) {
+      const date = new Date(year, month, day);
+
+      const dateKey = getDateKey(date);
+
+      days.push({
+        date,
+        day,
+        muted: false,
+        today: isSameDate(date, today),
+        selected: isSameDate(date, selectedDate),
+        event: calendarEvents[dateKey] || null,
+      });
+    }
+
+    // =================================================
+    // NEXT MONTH DAYS
+    // =================================================
+
+    const remainingDays = 42 - days.length;
+
+    for (let day = 1; day <= remainingDays; day++) {
+      const date = new Date(year, month + 1, day);
+
+      days.push({
+        date,
+        day,
+        muted: true,
+      });
+    }
+
+    return days;
+  }, [currentMonth, selectedDate, today]);
+
+  // ===================================================
+  // GO TO TODAY
+  // ===================================================
+
+  const handleToday = () => {
+    const todayDate = new Date();
+
+    setCurrentMonth(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
+
+    setSelectedDate(todayDate);
   };
 
   return (
@@ -141,25 +268,6 @@ const UpcomingSessions = () => {
             <p>Your next classes and training sessions</p>
           </div>
         </div>
-
-        {/* PERIOD SELECTOR */}
-
-        <button
-          type="button"
-          className="upcoming-period-button"
-          onClick={() =>
-            setSelectedPeriod(
-              selectedPeriod === "This Week" ? "Next Week" : "This Week",
-            )
-          }
-          aria-label="Change session period"
-        >
-          <LuCalendarDays />
-
-          <span>{selectedPeriod}</span>
-
-          <LuChevronDown />
-        </button>
       </div>
 
       {/* =================================================
@@ -180,6 +288,7 @@ const UpcomingSessions = () => {
 
               <div className="next-session-time">
                 <span className="session-live-dot"></span>
+
                 <span>In 2 hours</span>
               </div>
             </div>
@@ -260,6 +369,7 @@ const UpcomingSessions = () => {
 
             <button type="button" className="view-all-sessions">
               <span>View All</span>
+
               <LuArrowUpRight />
             </button>
           </div>
@@ -286,11 +396,13 @@ const UpcomingSessions = () => {
                     <div className="session-item-meta">
                       <span>
                         <LuCalendarDays />
+
                         {session.date}
                       </span>
 
                       <span>
                         <LuClock3 />
+
                         {session.time}
                       </span>
                     </div>
@@ -327,10 +439,12 @@ const UpcomingSessions = () => {
 
         <div className="upcoming-right-column">
           {/* =================================================
-              CALENDAR
+              REAL CALENDAR
           ================================================= */}
 
           <article className="session-calendar-card">
+            {/* CALENDAR HEADER */}
+
             <div className="calendar-header">
               <button
                 type="button"
@@ -353,6 +467,18 @@ const UpcomingSessions = () => {
               </button>
             </div>
 
+            {/* TODAY BUTTON */}
+
+            <button
+              type="button"
+              className="calendar-today-button"
+              onClick={handleToday}
+            >
+              Today
+            </button>
+
+            {/* WEEKDAYS */}
+
             <div className="calendar-weekdays">
               <span>Sun</span>
               <span>Mon</span>
@@ -363,24 +489,37 @@ const UpcomingSessions = () => {
               <span>Sat</span>
             </div>
 
-            <div className="calendar-grid">
-              {calendarDays.map((item, index) => (
-                <button
-                  type="button"
-                  key={`${item.day}-${index}`}
-                  className={`
-                    calendar-day
-                    ${item.muted ? "calendar-day-muted" : ""}
-                    ${item.active ? "calendar-day-active" : ""}
-                    ${item.event ? `calendar-event-${item.event}` : ""}
-                  `}
-                  aria-label={`March ${item.day}`}
-                >
-                  <span>{item.day}</span>
+            {/* CALENDAR GRID */}
 
-                  {item.event && <i className="calendar-event-dot"></i>}
-                </button>
-              ))}
+            <div className="calendar-grid">
+              {calendarDays.map((item) => {
+                const dateKey = getDateKey(item.date);
+
+                return (
+                  <button
+                    type="button"
+                    key={dateKey}
+                    className={`
+                      calendar-day
+                      ${item.muted ? "calendar-day-muted" : ""}
+                      ${item.today ? "calendar-day-today" : ""}
+                      ${item.selected ? "calendar-day-active" : ""}
+                      ${item.event ? `calendar-event-${item.event}` : ""}
+                    `}
+                    onClick={() => handleDateSelect(item.date)}
+                    aria-label={item.date.toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                    aria-pressed={item.selected}
+                  >
+                    <span>{item.day}</span>
+
+                    {item.event && <i className="calendar-event-dot"></i>}
+                  </button>
+                );
+              })}
             </div>
           </article>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   LuUsersRound,
@@ -20,6 +21,16 @@ import "./LearnerOverview.css";
 // =====================================================
 
 const LearnerOverview = () => {
+  const navigate = useNavigate();
+
+  // ===================================================
+  // HANDLERS
+  // ===================================================
+
+  const handleViewAllLearners = () => {
+    navigate("/trainer/trainer-learners");
+  };
+
   // ===================================================
   // STAT CARDS
   // ===================================================
@@ -122,7 +133,11 @@ const LearnerOverview = () => {
           </div>
         </div>
 
-        <button type="button" className="learner-overview-view-button">
+        <button
+          type="button"
+          className="learner-overview-view-button"
+          onClick={handleViewAllLearners}
+        >
           <span>View All Learners</span>
 
           <LuArrowRight />
@@ -189,6 +204,7 @@ const LearnerOverview = () => {
 
             <button type="button" className="learner-period-button">
               <span>Last 6 Months</span>
+
               <LuChevronDown />
             </button>
           </div>
@@ -412,8 +428,13 @@ const LearnerOverview = () => {
             <p>Latest learners who joined or were recently active</p>
           </div>
 
-          <button type="button" className="recent-learners-view-button">
+          <button
+            type="button"
+            className="recent-learners-view-button"
+            onClick={handleViewAllLearners}
+          >
             <span>View All</span>
+
             <LuArrowRight />
           </button>
         </div>
@@ -431,7 +452,6 @@ const LearnerOverview = () => {
                 <th>Progress</th>
                 <th>Last Active</th>
                 <th>Status</th>
-                <th>Actions</th>
               </tr>
             </thead>
 
@@ -491,15 +511,7 @@ const LearnerOverview = () => {
                   </td>
 
                   {/* Actions */}
-                  <td>
-                    <button
-                      type="button"
-                      className="learner-table-action"
-                      aria-label={`Actions for ${learner.name}`}
-                    >
-                      <LuEllipsis />
-                    </button>
-                  </td>
+                 
                 </tr>
               ))}
             </tbody>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   LuArrowUpRight,
   LuCalendarCheck,
@@ -72,6 +73,8 @@ const scheduleStatsData = [
 ];
 
 const ScheduleStats = () => {
+  const navigate = useNavigate();
+
   const [activeStat, setActiveStat] = useState(null);
 
   const handleStatClick = (stat) => {
@@ -87,7 +90,7 @@ const ScheduleStats = () => {
   };
 
   const handleViewSchedule = () => {
-    window.dispatchEvent(new CustomEvent("trainer-schedule-view-all"));
+    navigate("/trainer/learner-schedule");
   };
 
   const handleRefreshStats = () => {
@@ -156,9 +159,11 @@ const ScheduleStats = () => {
                 aria-pressed={isActive}
               >
                 {/* Decorative glass circle */}
+
                 <span className="schedule-stat-card-glow" aria-hidden="true" />
 
                 {/* Top row */}
+
                 <div className="schedule-stat-top">
                   <span className="schedule-stat-icon">
                     <Icon size={17} strokeWidth={1.75} />
@@ -170,6 +175,7 @@ const ScheduleStats = () => {
                 </div>
 
                 {/* Main information */}
+
                 <div className="schedule-stat-content">
                   <span className="schedule-stat-label">{stat.label}</span>
 
@@ -179,6 +185,7 @@ const ScheduleStats = () => {
                 </div>
 
                 {/* Bottom information */}
+
                 <div className="schedule-stat-bottom">
                   <div className="schedule-stat-trend">
                     <span className="schedule-stat-trend-value">

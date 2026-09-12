@@ -1809,7 +1809,7 @@
    900px
    ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1245px) {
   .schedule-header-shell {
     min-height: auto;
   }

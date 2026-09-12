@@ -4,10 +4,9 @@ import {
   LuBookOpen,
   LuCalendarDays,
   LuCheck,
-  LuCopy,
-  LuPencil ,
   LuGraduationCap,
   LuMapPin,
+  LuPencil,
   LuPenLine,
   LuShare2,
   LuSparkles,
@@ -19,7 +18,7 @@ import {
 
 import "./ProfileHeader.css";
 
-const trainerProfile = {
+const initialTrainerProfile = {
   name: "Sarah Khan",
   role: "Senior Frontend Trainer",
   trainerId: "TRN-2024-018",
@@ -67,6 +66,11 @@ const profileStats = [
 ];
 
 const ProfileHeader = () => {
+  const [trainerProfile, setTrainerProfile] = useState(initialTrainerProfile);
+
+  const [editProfile, setEditProfile] = useState(initialTrainerProfile);
+
+  const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -80,17 +84,60 @@ const ProfileHeader = () => {
     }, 2800);
   };
 
-  const handleEditProfile = () => {
-    window.dispatchEvent(
-      new CustomEvent("trainer-profile-edit", {
-        detail: {
-          trainer: trainerProfile,
-        },
-      }),
-    );
+  /* =========================================================
+      EDIT PROFILE
+  ========================================================= */
 
-    showMessage("Profile editing workspace opened.");
+  const handleEditProfile = () => {
+    setEditProfile(trainerProfile);
+    setIsEditing(true);
   };
+
+  const handleCancelEdit = () => {
+    setEditProfile(trainerProfile);
+    setIsEditing(false);
+
+    showMessage("Profile changes discarded.");
+  };
+
+  const handleSaveProfile = () => {
+    const trimmedProfile = {
+      ...editProfile,
+      name: editProfile.name.trim(),
+      role: editProfile.role.trim(),
+      department: editProfile.department.trim(),
+      location: editProfile.location.trim(),
+      quote: editProfile.quote.trim(),
+    };
+
+    if (
+      !trimmedProfile.name ||
+      !trimmedProfile.role ||
+      !trimmedProfile.department ||
+      !trimmedProfile.location ||
+      !trimmedProfile.quote
+    ) {
+      showMessage("Please complete all profile fields.");
+      return;
+    }
+
+    setTrainerProfile(trimmedProfile);
+    setEditProfile(trimmedProfile);
+    setIsEditing(false);
+
+    showMessage("Profile updated successfully.");
+  };
+
+  const handleProfileFieldChange = (field, value) => {
+    setEditProfile((currentProfile) => ({
+      ...currentProfile,
+      [field]: value,
+    }));
+  };
+
+  /* =========================================================
+      SHARE PROFILE
+  ========================================================= */
 
   const handleShareProfile = async () => {
     const profileUrl = window.location.href;
@@ -109,6 +156,7 @@ const ProfileHeader = () => {
 
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(profileUrl);
+
         setCopied(true);
         showMessage("Profile link copied to clipboard.");
 
@@ -129,11 +177,19 @@ const ProfileHeader = () => {
     }
   };
 
+  /* =========================================================
+      PROFILE PHOTO
+  ========================================================= */
+
   const handleAvatarEdit = () => {
     window.dispatchEvent(new CustomEvent("trainer-profile-avatar-edit"));
 
     showMessage("Profile photo editor opened.");
   };
+
+  /* =========================================================
+      OTHER ACTIONS
+  ========================================================= */
 
   const handleInspiration = () => {
     window.dispatchEvent(new CustomEvent("trainer-profile-inspiration"));
@@ -168,7 +224,9 @@ const ProfileHeader = () => {
         ====================================================== */}
 
         <div className="profile-header-main">
-          {/* PROFILE PHOTO */}
+          {/* =================================================
+              PROFILE PHOTO
+          ================================================== */}
 
           <div className="profile-avatar-section">
             <div className="profile-avatar-wrapper">
@@ -197,92 +255,218 @@ const ProfileHeader = () => {
             </div>
           </div>
 
-          {/* PROFILE INFORMATION */}
+          {/* =================================================
+              PROFILE INFORMATION
+          ================================================== */}
 
           <div className="profile-header-information">
             <div className="profile-eyebrow">
               <span>TRAINER PROFILE</span>
             </div>
 
-            <div className="profile-name-row">
-              <h1>{trainerProfile.name}</h1>
+            {isEditing ? (
+              /* =============================================
+                  EDIT MODE
+              ============================================== */
 
-              <span
-                className="profile-verified"
-                title="Verified trainer"
-                aria-label="Verified trainer"
-              >
-                <LuCheck size={14} strokeWidth={2.5} />
-              </span>
-            </div>
+              <div className="profile-edit-form">
+                {/* Name */}
 
-            <p className="profile-role">{trainerProfile.role}</p>
+                <div className="profile-edit-field">
+                  <label htmlFor="trainer-name">Full Name</label>
 
-            {/* META INFORMATION */}
+                  <input
+                    id="trainer-name"
+                    type="text"
+                    value={editProfile.name}
+                    onChange={(event) =>
+                      handleProfileFieldChange("name", event.target.value)
+                    }
+                    placeholder="Enter your name"
+                  />
+                </div>
 
-            <div className="profile-meta-list">
-              <div className="profile-meta-item profile-meta-id">
-                <span className="profile-meta-icon">
-                  <LuGraduationCap size={16} strokeWidth={1.8} />
-                </span>
+                {/* Role */}
 
-                <span>{trainerProfile.trainerId}</span>
+                <div className="profile-edit-field">
+                  <label htmlFor="trainer-role">Professional Role</label>
+
+                  <input
+                    id="trainer-role"
+                    type="text"
+                    value={editProfile.role}
+                    onChange={(event) =>
+                      handleProfileFieldChange("role", event.target.value)
+                    }
+                    placeholder="Enter your role"
+                  />
+                </div>
+
+                {/* Department */}
+
+                <div className="profile-edit-field">
+                  <label htmlFor="trainer-department">Department</label>
+
+                  <input
+                    id="trainer-department"
+                    type="text"
+                    value={editProfile.department}
+                    onChange={(event) =>
+                      handleProfileFieldChange("department", event.target.value)
+                    }
+                    placeholder="Enter your department"
+                  />
+                </div>
+
+                {/* Location */}
+
+                <div className="profile-edit-field">
+                  <label htmlFor="trainer-location">Location</label>
+
+                  <input
+                    id="trainer-location"
+                    type="text"
+                    value={editProfile.location}
+                    onChange={(event) =>
+                      handleProfileFieldChange("location", event.target.value)
+                    }
+                    placeholder="Enter your location"
+                  />
+                </div>
+
+                {/* Quote */}
+
+                <div className="profile-edit-field profile-edit-field-full">
+                  <label htmlFor="trainer-quote">Professional Quote</label>
+
+                  <textarea
+                    id="trainer-quote"
+                    value={editProfile.quote}
+                    onChange={(event) =>
+                      handleProfileFieldChange("quote", event.target.value)
+                    }
+                    placeholder="Write something about your teaching philosophy..."
+                    rows={4}
+                  />
+                </div>
+
+                {/* Edit Actions */}
+
+                <div className="profile-edit-actions">
+                  <button
+                    type="button"
+                    className="profile-edit-cancel"
+                    onClick={handleCancelEdit}
+                  >
+                    <LuX size={16} strokeWidth={1.9} />
+
+                    <span>Cancel</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="profile-edit-save"
+                    onClick={handleSaveProfile}
+                  >
+                    <LuCheck size={16} strokeWidth={2} />
+
+                    <span>Save Changes</span>
+                  </button>
+                </div>
               </div>
+            ) : (
+              /* =============================================
+                  NORMAL PROFILE VIEW
+              ============================================== */
 
-              <div className="profile-meta-item profile-meta-department">
-                <span className="profile-meta-icon">
-                  <LuBookOpen size={16} strokeWidth={1.8} />
-                </span>
+              <>
+                <div className="profile-name-row">
+                  <h1>{trainerProfile.name}</h1>
 
-                <span>{trainerProfile.department}</span>
-              </div>
+                  <span
+                    className="profile-verified"
+                    title="Verified trainer"
+                    aria-label="Verified trainer"
+                  >
+                    <LuCheck size={14} strokeWidth={2.5} />
+                  </span>
+                </div>
 
-              <div className="profile-meta-item profile-meta-location">
-                <span className="profile-meta-icon">
-                  <LuMapPin size={16} strokeWidth={1.8} />
-                </span>
+                <p className="profile-role">{trainerProfile.role}</p>
 
-                <span>{trainerProfile.location}</span>
-              </div>
-            </div>
+                {/* META INFORMATION */}
 
-            {/* QUOTE */}
+                <div className="profile-meta-list">
+                  <div className="profile-meta-item profile-meta-id">
+                    <span className="profile-meta-icon">
+                      <LuGraduationCap size={16} strokeWidth={1.8} />
+                    </span>
 
-            <div className="profile-quote">
-              <span className="profile-quote-mark">“</span>
+                    <span>{trainerProfile.trainerId}</span>
+                  </div>
 
-              <p>{trainerProfile.quote}</p>
-            </div>
+                  <div className="profile-meta-item profile-meta-department">
+                    <span className="profile-meta-icon">
+                      <LuBookOpen size={16} strokeWidth={1.8} />
+                    </span>
+
+                    <span>{trainerProfile.department}</span>
+                  </div>
+
+                  <div className="profile-meta-item profile-meta-location">
+                    <span className="profile-meta-icon">
+                      <LuMapPin size={16} strokeWidth={1.8} />
+                    </span>
+
+                    <span>{trainerProfile.location}</span>
+                  </div>
+                </div>
+
+                {/* QUOTE */}
+
+                <div className="profile-quote">
+                  <span className="profile-quote-mark">“</span>
+
+                  <p>{trainerProfile.quote}</p>
+                </div>
+              </>
+            )}
           </div>
 
-          {/* ACTIONS */}
+          {/* =================================================
+              ACTIONS
+          ================================================== */}
 
           <div className="profile-header-actions">
-            <button
-              type="button"
-              className="profile-share-button"
-              onClick={handleShareProfile}
-            >
-              <span className="profile-action-icon">
-                {copied ? (
-                  <LuCheck size={17} strokeWidth={1.9} />
-                ) : (
-                  <LuShare2 size={17} strokeWidth={1.9} />
-                )}
-              </span>
+            {!isEditing && (
+              <>
+                <button
+                  type="button"
+                  className="profile-share-button"
+                  onClick={handleShareProfile}
+                >
+                  <span className="profile-action-icon">
+                    {copied ? (
+                      <LuCheck size={17} strokeWidth={1.9} />
+                    ) : (
+                      <LuShare2 size={17} strokeWidth={1.9} />
+                    )}
+                  </span>
 
-              <span>{copied ? "Copied" : "Share Profile"}</span>
-            </button>
+                  <span>{copied ? "Copied" : "Share Profile"}</span>
+                </button>
 
-            <button
-              type="button"
-              className="profile-edit-button"
-              onClick={handleEditProfile}
-            >
-              <LuPencil size={17} strokeWidth={1.9} />
+                <button
+                  type="button"
+                  className="profile-edit-button"
+                  onClick={handleEditProfile}
+                >
+                  <LuPencil size={17} strokeWidth={1.9} />
 
-              <span>Edit Profile</span>
-            </button>
+                  <span>Edit Profile</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -290,102 +474,106 @@ const ProfileHeader = () => {
             INSPIRATION CARD
         ====================================================== */}
 
-        <div className="profile-inspiration-card">
-          <div className="profile-inspiration-icon">
-            <LuGraduationCap size={24} strokeWidth={1.7} />
-          </div>
-
-          <div className="profile-inspiration-content">
-            <div className="profile-inspiration-title">
-              <strong>Keep Inspiring</strong>
-
-              <LuSparkles size={18} strokeWidth={1.7} />
+        {!isEditing && (
+          <div className="profile-inspiration-card">
+            <div className="profile-inspiration-icon">
+              <LuGraduationCap size={24} strokeWidth={1.7} />
             </div>
 
-            <p>Your knowledge creates brighter futures for every learner.</p>
+            <div className="profile-inspiration-content">
+              <div className="profile-inspiration-title">
+                <strong>Keep Inspiring</strong>
+
+                <LuSparkles size={18} strokeWidth={1.7} />
+              </div>
+
+              <p>Your knowledge creates brighter futures for every learner.</p>
+            </div>
+
+            <button
+              type="button"
+              className="profile-inspiration-action"
+              onClick={handleInspiration}
+              aria-label="Keep inspiring"
+              title="Keep inspiring"
+            >
+              <LuArrowUpRight size={19} strokeWidth={1.9} />
+            </button>
+
+            <div
+              className="profile-inspiration-decoration profile-inspiration-decoration-one"
+              aria-hidden="true"
+            />
+
+            <div
+              className="profile-inspiration-decoration profile-inspiration-decoration-two"
+              aria-hidden="true"
+            />
           </div>
-
-          <button
-            type="button"
-            className="profile-inspiration-action"
-            onClick={handleInspiration}
-            aria-label="Keep inspiring"
-            title="Keep inspiring"
-          >
-            <LuArrowUpRight size={19} strokeWidth={1.9} />
-          </button>
-
-          <div
-            className="profile-inspiration-decoration profile-inspiration-decoration-one"
-            aria-hidden="true"
-          />
-
-          <div
-            className="profile-inspiration-decoration profile-inspiration-decoration-two"
-            aria-hidden="true"
-          />
-        </div>
+        )}
 
         {/* =====================================================
             STAT CARDS
         ====================================================== */}
 
-        <div className="profile-stat-grid">
-          {profileStats.map((stat) => {
-            const Icon = stat.icon;
+        {!isEditing && (
+          <div className="profile-stat-grid">
+            {profileStats.map((stat) => {
+              const Icon = stat.icon;
 
-            return (
-              <button
-                type="button"
-                key={stat.id}
-                className={`profile-stat-card profile-stat-${stat.theme}`}
-                onClick={() => handleStatClick(stat)}
-              >
-                <span className="profile-stat-icon">
-                  <Icon size={24} strokeWidth={1.7} />
-                </span>
-
-                <span className="profile-stat-information">
-                  <strong>{stat.value}</strong>
-
-                  <span className="profile-stat-label">{stat.label}</span>
-
-                  <span className="profile-stat-change">
-                    <LuArrowUpRight size={14} strokeWidth={2} />
-
-                    <span>{stat.change}</span>
+              return (
+                <button
+                  type="button"
+                  key={stat.id}
+                  className={`profile-stat-card profile-stat-${stat.theme}`}
+                  onClick={() => handleStatClick(stat)}
+                >
+                  <span className="profile-stat-icon">
+                    <Icon size={24} strokeWidth={1.7} />
                   </span>
-                </span>
-              </button>
-            );
-          })}
 
-          {/* ===================================================
-              NAVY PERFORMANCE CARD
-          ==================================================== */}
+                  <span className="profile-stat-information">
+                    <strong>{stat.value}</strong>
 
-          <button
-            type="button"
-            className="profile-performance-card"
-            onClick={handlePerformance}
-          >
-            <span className="profile-performance-icon">
-              <LuTrophy size={25} strokeWidth={1.7} />
-            </span>
+                    <span className="profile-stat-label">{stat.label}</span>
 
-            <span className="profile-performance-content">
-              <strong>Top Performer</strong>
+                    <span className="profile-stat-change">
+                      <LuArrowUpRight size={14} strokeWidth={2} />
 
-              <span>Among all trainers</span>
-            </span>
+                      <span>{stat.change}</span>
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
 
-            <span className="profile-performance-arrow">
-              <LuArrowUpRight size={19} strokeWidth={1.9} />
-            </span>
+            {/* ===================================================
+                NAVY PERFORMANCE CARD
+            ==================================================== */}
 
-            <span className="profile-performance-glow" aria-hidden="true" />
-          </button>
-        </div>
+            <button
+              type="button"
+              className="profile-performance-card"
+              onClick={handlePerformance}
+            >
+              <span className="profile-performance-icon">
+                <LuTrophy size={25} strokeWidth={1.7} />
+              </span>
+
+              <span className="profile-performance-content">
+                <strong>Top Performer</strong>
+
+                <span>Among all trainers</span>
+              </span>
+
+              <span className="profile-performance-arrow">
+                <LuArrowUpRight size={19} strokeWidth={1.9} />
+              </span>
+
+              <span className="profile-performance-glow" aria-hidden="true" />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* =======================================================

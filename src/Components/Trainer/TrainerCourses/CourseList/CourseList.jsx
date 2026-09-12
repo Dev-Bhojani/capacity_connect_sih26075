@@ -7,7 +7,6 @@ import {
   LuChevronLeft,
   LuChevronRight,
   LuEllipsis,
-  LuFilePenLine,
   LuLayers3,
   LuPlay,
   LuUsersRound,
@@ -159,22 +158,6 @@ const CourseList = ({
   const navigate = useNavigate();
 
   /* =========================================================
-     ACTIONS
-  ========================================================= */
-
-  const handleEdit = (course) => {
-    setOpenMenu(null);
-
-    window.dispatchEvent(
-      new CustomEvent("trainer-edit-course", {
-        detail: {
-          course,
-        },
-      }),
-    );
-  };
-
-  /* =========================================================
      VIEW COURSE DETAILS
   ========================================================= */
 
@@ -261,7 +244,7 @@ const CourseList = ({
               </span>
             </div>
 
-            <p>Manage, edit and track your courses all in one place.</p>
+            <p>Manage and track your courses all in one place.</p>
           </div>
         </div>
 
@@ -361,12 +344,6 @@ const CourseList = ({
 
                   {openMenu === course.id && (
                     <div className="course-card-action-menu">
-                      <button type="button" onClick={() => handleEdit(course)}>
-                        <LuFilePenLine size={14} strokeWidth={1.8} />
-
-                        <span>Edit course</span>
-                      </button>
-
                       <button
                         type="button"
                         onClick={() => handleViewDetails(course)}
@@ -418,16 +395,6 @@ const CourseList = ({
                 {/* Actions */}
 
                 <div className="course-card-actions">
-                  <button
-                    type="button"
-                    className="course-edit-button"
-                    onClick={() => handleEdit(course)}
-                  >
-                    <LuFilePenLine size={14} strokeWidth={1.8} />
-
-                    <span>Edit</span>
-                  </button>
-
                   <button
                     type="button"
                     className="course-details-button"

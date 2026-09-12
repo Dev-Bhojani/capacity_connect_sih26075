@@ -26,6 +26,10 @@ const ScheduleHeader = ({
   const createMenuRef = useRef(null);
   const moreMenuRef = useRef(null);
 
+  /* =========================================================
+     OUTSIDE CLICK
+  ========================================================= */
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -56,6 +60,10 @@ const ScheduleHeader = ({
     };
   }, []);
 
+  /* =========================================================
+     TODAY
+  ========================================================= */
+
   const handleToday = () => {
     setIsTodayActive(true);
     setShowMoreMenu(false);
@@ -68,6 +76,10 @@ const ScheduleHeader = ({
       setIsTodayActive(false);
     }, 700);
   };
+
+  /* =========================================================
+     CREATE TRAINING SESSION
+  ========================================================= */
 
   const handleCreateSchedule = () => {
     setShowCreateMenu(false);
@@ -85,6 +97,10 @@ const ScheduleHeader = ({
     );
   };
 
+  /* =========================================================
+     CREATE QUIZ
+  ========================================================= */
+
   const handleCreateQuiz = () => {
     setShowCreateMenu(false);
 
@@ -100,6 +116,10 @@ const ScheduleHeader = ({
       }),
     );
   };
+
+  /* =========================================================
+     CREATE ASSESSMENT
+  ========================================================= */
 
   const handleCreateAssessment = () => {
     setShowCreateMenu(false);
@@ -117,6 +137,10 @@ const ScheduleHeader = ({
     );
   };
 
+  /* =========================================================
+     CALENDAR SETTINGS
+  ========================================================= */
+
   const handleCalendarSettings = () => {
     setShowMoreMenu(false);
 
@@ -125,36 +149,56 @@ const ScheduleHeader = ({
     window.dispatchEvent(new CustomEvent("trainer-calendar-settings"));
   };
 
+  /* =========================================================
+     VIEW FULL SCHEDULE
+  ========================================================= */
+
   const handleViewSchedule = () => {
     setShowMoreMenu(false);
 
     window.dispatchEvent(new CustomEvent("trainer-view-full-schedule"));
   };
 
+  /* =========================================================
+     RENDER
+  ========================================================= */
+
   return (
     <section className="schedule-header">
       <div className="schedule-header-shell">
-        {/* Decorative glass orbs */}
+        {/* =================================================
+            DECORATIVE GLASS ORBS
+        ================================================= */}
+
         <span
           className="schedule-header-orb schedule-header-orb-one"
           aria-hidden="true"
         />
+
         <span
           className="schedule-header-orb schedule-header-orb-two"
           aria-hidden="true"
         />
+
         <span
           className="schedule-header-orb schedule-header-orb-three"
           aria-hidden="true"
         />
 
-        {/* =========================================
+        {/* =================================================
             TOP / MAIN HEADER
-        ========================================= */}
+        ================================================= */}
+
         <div className="schedule-header-main">
-          {/* LEFT SIDE */}
+          {/* =================================================
+              LEFT SIDE
+          ================================================= */}
+
           <div className="schedule-header-left">
-            {/* Breadcrumb */}
+            {/* ===============================================
+                BREADCRUMB
+            =============================================== */}
+
             <nav className="schedule-breadcrumb" aria-label="Breadcrumb">
               <button
                 type="button"
@@ -177,7 +221,10 @@ const ScheduleHeader = ({
               <span className="schedule-breadcrumb-current">Schedule</span>
             </nav>
 
-            {/* Title */}
+            {/* ===============================================
+                TITLE
+            =============================================== */}
+
             <div className="schedule-title-area">
               <span className="schedule-title-accent">TRAINER WORKSPACE</span>
 
@@ -192,13 +239,16 @@ const ScheduleHeader = ({
             </div>
           </div>
 
-          {/* =========================================
+          {/* =================================================
               CENTER ILLUSTRATION
-          ========================================= */}
+          ================================================= */}
+
           <div className="schedule-illustration" aria-hidden="true">
             <div className="schedule-illustration-glow" />
 
             <div className="schedule-calendar-art">
+              {/* Calendar rings */}
+
               <div className="schedule-calendar-rings">
                 <span />
                 <span />
@@ -206,14 +256,19 @@ const ScheduleHeader = ({
                 <span />
               </div>
 
+              {/* Calendar top */}
+
               <div className="schedule-calendar-top">
                 <span />
                 <span />
                 <span />
               </div>
 
+              {/* Calendar body */}
+
               <div className="schedule-calendar-body">
                 <div className="schedule-calendar-line schedule-calendar-line-wide" />
+
                 <div className="schedule-calendar-line schedule-calendar-line-short" />
 
                 <div className="schedule-calendar-mini-grid">
@@ -228,6 +283,8 @@ const ScheduleHeader = ({
                   <span />
                 </div>
 
+                {/* Calendar events */}
+
                 <div className="schedule-calendar-event event-mint">
                   <span />
                 </div>
@@ -241,179 +298,54 @@ const ScheduleHeader = ({
                 </div>
               </div>
 
+              {/* Clock */}
+
               <div className="schedule-clock">
                 <div className="schedule-clock-face">
                   <span className="schedule-clock-hour" />
+
                   <span className="schedule-clock-minute" />
+
                   <span className="schedule-clock-center" />
                 </div>
               </div>
             </div>
 
+            {/* Illustration caption */}
+
             <div className="schedule-art-caption">
               <span>Plan</span>
+
               <span>Teach</span>
+
               <span>Inspire</span>
 
               <i />
             </div>
           </div>
 
-          {/* =========================================
-              RIGHT SIDE
-          ========================================= */}
-          <div className="schedule-header-right">
-            {/* Date */}
-            <div className="schedule-date">
-              <div className="schedule-date-icon">
-                <LuCalendarDays size={22} strokeWidth={1.55} />
-              </div>
-
-              <div className="schedule-date-content">
-                <strong>Tuesday, 9 September 2026</strong>
-                <span>Good evening, Trainer!</span>
-              </div>
-            </div>
-
-            {/* Quote */}
-            <div className="schedule-quote">
-              <span className="schedule-quote-mark">“</span>
-
-              <p>
-                A well planned session
-                <br />
-                creates a brighter tomorrow.
-              </p>
-
-              <span className="schedule-quote-line" />
-            </div>
-
-            {/* ACTIONS */}
-            <div className="schedule-header-actions">
-              {/* Create Schedule */}
-              <div className="schedule-create-wrapper" ref={createMenuRef}>
-                <button
-                  type="button"
-                  className="schedule-create-button"
-                  onClick={handleCreateSchedule}
-                >
-                  <span className="schedule-create-icon">
-                    <LuPlus size={18} strokeWidth={1.9} />
-                  </span>
-
-                  <span>Create Schedule</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="schedule-create-chevron"
-                  onClick={() => setShowCreateMenu((current) => !current)}
-                  aria-label="More create options"
-                  aria-expanded={showCreateMenu}
-                >
-                  <LuChevronDown size={15} strokeWidth={1.9} />
-                </button>
-
-                {showCreateMenu && (
-                  <div className="schedule-action-menu schedule-create-menu">
-                    <button type="button" onClick={handleCreateSchedule}>
-                      <span className="menu-icon menu-icon-blue">
-                        <LuBookOpen size={14} strokeWidth={1.8} />
-                      </span>
-
-                      <span>
-                        <strong>Training Session</strong>
-                        <small>Add a regular class</small>
-                      </span>
-                    </button>
-
-                    <button type="button" onClick={handleCreateQuiz}>
-                      <span className="menu-icon menu-icon-purple">
-                        <LuGraduationCap size={14} strokeWidth={1.8} />
-                      </span>
-
-                      <span>
-                        <strong>Quiz</strong>
-                        <small>Schedule a quiz</small>
-                      </span>
-                    </button>
-
-                    <button type="button" onClick={handleCreateAssessment}>
-                      <span className="menu-icon menu-icon-peach">
-                        <LuCalendar size={14} strokeWidth={1.8} />
-                      </span>
-
-                      <span>
-                        <strong>Assessment</strong>
-                        <small>Schedule an assessment</small>
-                      </span>
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {/* Today */}
-              <button
-                type="button"
-                className={`schedule-today-button ${
-                  isTodayActive ? "is-active" : ""
-                }`}
-                onClick={handleToday}
-              >
-                <LuCalendar size={15} strokeWidth={1.75} />
-
-                <span>Today</span>
-              </button>
-
-              {/* More */}
-              <div className="schedule-more-wrapper" ref={moreMenuRef}>
-                <button
-                  type="button"
-                  className={`schedule-more-button ${
-                    showMoreMenu ? "is-open" : ""
-                  }`}
-                  onClick={() => setShowMoreMenu((current) => !current)}
-                  aria-label="More schedule options"
-                  aria-expanded={showMoreMenu}
-                >
-                  <LuEllipsis size={18} strokeWidth={1.8} />
-                </button>
-
-                {showMoreMenu && (
-                  <div className="schedule-action-menu schedule-more-menu">
-                    <button type="button" onClick={handleViewSchedule}>
-                      <span className="menu-icon menu-icon-blue">
-                        <LuCalendarDays size={14} strokeWidth={1.8} />
-                      </span>
-
-                      <span>
-                        <strong>Full Schedule</strong>
-                        <small>View all activities</small>
-                      </span>
-                    </button>
-
-                    <button type="button" onClick={handleCalendarSettings}>
-                      <span className="menu-icon menu-icon-mint">
-                        <LuClock3 size={14} strokeWidth={1.8} />
-                      </span>
-
-                      <span>
-                        <strong>Calendar Settings</strong>
-                        <small>Manage schedule preferences</small>
-                      </span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+          {/* =================================================
+              RIGHT SIDE REMOVED
+              
+              Previously contained:
+              - Date
+              - Greeting
+              - Quote
+              - Create Schedule
+              - Today
+              - More menu
+          ================================================= */}
         </div>
 
-        {/* =========================================
+        {/* =================================================
             BOTTOM SUMMARY STRIP
-        ========================================= */}
+        ================================================= */}
+
         <div className="schedule-header-summary">
-          {/* Active Courses */}
+          {/* =================================================
+              ACTIVE COURSES
+          ================================================= */}
+
           <button
             type="button"
             className="schedule-summary-card schedule-summary-mint"
@@ -433,6 +365,7 @@ const ScheduleHeader = ({
 
             <span className="schedule-summary-content">
               <small>Active Courses</small>
+
               <strong>6</strong>
             </span>
 
@@ -443,7 +376,10 @@ const ScheduleHeader = ({
             />
           </button>
 
-          {/* Total Batches */}
+          {/* =================================================
+              TOTAL BATCHES
+          ================================================= */}
+
           <button
             type="button"
             className="schedule-summary-card schedule-summary-sky"
@@ -463,6 +399,7 @@ const ScheduleHeader = ({
 
             <span className="schedule-summary-content">
               <small>Total Batches</small>
+
               <strong>12</strong>
             </span>
 
@@ -473,7 +410,10 @@ const ScheduleHeader = ({
             />
           </button>
 
-          {/* Scheduled This Week */}
+          {/* =================================================
+              SCHEDULED THIS WEEK
+          ================================================= */}
+
           <button
             type="button"
             className="schedule-summary-card schedule-summary-peach"
@@ -493,6 +433,7 @@ const ScheduleHeader = ({
 
             <span className="schedule-summary-content">
               <small>Scheduled This Week</small>
+
               <strong>18</strong>
             </span>
 
@@ -503,7 +444,10 @@ const ScheduleHeader = ({
             />
           </button>
 
-          {/* Total Hours */}
+          {/* =================================================
+              TOTAL HOURS
+          ================================================= */}
+
           <button
             type="button"
             className="schedule-summary-card schedule-summary-lavender"
@@ -523,6 +467,7 @@ const ScheduleHeader = ({
 
             <span className="schedule-summary-content">
               <small>Total Hours</small>
+
               <strong>24.5 hrs</strong>
             </span>
 
@@ -533,7 +478,10 @@ const ScheduleHeader = ({
             />
           </button>
 
-          {/* Navy motivational card */}
+          {/* =================================================
+              NAVY MOTIVATIONAL CARD
+          ================================================= */}
+
           <div className="schedule-summary-message">
             <div className="schedule-summary-message-icon">
               <svg

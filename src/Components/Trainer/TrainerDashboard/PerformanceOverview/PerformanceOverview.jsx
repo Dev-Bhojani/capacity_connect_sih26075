@@ -2,14 +2,12 @@ import React from "react";
 
 import {
   LuChartNoAxesCombined,
-  LuCalendarDays,
   LuChevronDown,
   LuUsersRound,
   LuBookOpen,
   LuStar,
   LuTrendingUp,
   LuArrowUpRight,
-  LuCircleCheck,
 } from "react-icons/lu";
 
 import "./PerformanceOverview.css";
@@ -37,14 +35,6 @@ const PerformanceOverview = () => {
             <p>Your teaching performance at a glance</p>
           </div>
         </div>
-
-        <button type="button" className="performance-period-button">
-          <LuCalendarDays />
-
-          <span>This Month</span>
-
-          <LuChevronDown />
-        </button>
       </div>
 
       {/* =================================================
@@ -97,6 +87,7 @@ const PerformanceOverview = () => {
                 aria-label="Learner progress trend"
               >
                 {/* Area */}
+
                 <defs>
                   <linearGradient
                     id="performanceAreaGradient"

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ScheduleHeader from "../../../Components/Trainer/TrainerSchedule/ScheduleHeader/ScheduleHeader";
 import ScheduleStats from "../../../Components/Trainer/TrainerSchedule/ScheduleStats/ScheduleStats";
 import ScheduleFilters from "../../../Components/Trainer/TrainerSchedule/ScheduleFilters/ScheduleFilters";
-import ScheduleCalendar from "../../../Components/Trainer/TrainerSchedule/ScheduleCalendar/ScheduleCalendar";
+
 
 import "./TrainerSchedule.css";
 
@@ -268,7 +268,6 @@ const TrainerSchedule = () => {
             create actions back to this page.
         ================================================= */}
 
-        <ScheduleCalendar />
 
         {/* =================================================
             PAGE MESSAGE

@@ -2136,3 +2136,47 @@
     transition-duration: 0.01ms !important;
   }
 }
+/* =====================================================
+   CALENDAR TODAY BUTTON
+===================================================== */
+
+.calendar-today-button {
+  display: block;
+  margin: 0 auto 14px;
+  padding: 6px 12px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.calendar-today-button:hover {
+  background: #eef6ff;
+  border-color: rgba(14, 165, 233, 0.25);
+  transform: translateY(-1px);
+}
+
+/* =====================================================
+   TODAY DATE
+===================================================== */
+
+.calendar-day-today:not(.calendar-day-active) {
+  border: 1px solid #38bdf8;
+  color: #0284c7;
+  font-weight: 700;
+}
+
+/* =====================================================
+   SELECTED DATE
+===================================================== */
+
+.calendar-day-active {
+  font-weight: 700;
+}

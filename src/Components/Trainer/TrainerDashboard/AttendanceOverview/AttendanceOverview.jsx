@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   LuCalendar,
@@ -116,6 +117,16 @@ const recentAttendance = [
 // =====================================================
 
 const AttendanceOverview = () => {
+  const navigate = useNavigate();
+
+  // =====================================================
+  // NAVIGATION
+  // =====================================================
+
+  const handleViewAllAttendance = () => {
+    navigate("/trainer/trainer-attendance");
+  };
+
   return (
     <section className="trainer-attendance-overview">
       {/* =================================================
@@ -134,18 +145,6 @@ const AttendanceOverview = () => {
             <p>Track learner attendance and engagement</p>
           </div>
         </div>
-
-        {/* =================================================
-            MONTH SELECTOR
-        ================================================= */}
-
-        <button type="button" className="attendance-month-button">
-          <LuCalendar />
-
-          <span>This Month</span>
-
-          <LuChevronDown />
-        </button>
       </div>
 
       {/* =================================================
@@ -308,11 +307,6 @@ const AttendanceOverview = () => {
 
               <p>Last 4 weeks</p>
             </div>
-
-            <button type="button" className="attendance-trend-selector">
-              <span>This Month</span>
-              <LuChevronDown />
-            </button>
           </div>
 
           {/* =================================================
@@ -369,6 +363,7 @@ const AttendanceOverview = () => {
               type="button"
               className="recent-attendance-arrow"
               aria-label="View all attendance"
+              onClick={handleViewAllAttendance}
             >
               <LuArrowRight />
             </button>
