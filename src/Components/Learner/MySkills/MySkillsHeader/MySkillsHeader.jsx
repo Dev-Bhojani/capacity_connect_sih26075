@@ -10,6 +10,7 @@ import {
   FiTrendingUp,
   FiZap,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../../../Reusable_components/Card/Card";
 import Badge from "../../../../Reusable_components/Badge/Badge";
@@ -24,10 +25,25 @@ const MySkillsHeader = ({
   onViewSkillGaps,
   onExploreRecommendations,
 }) => {
+  const navigate = useNavigate();
+
   const safeProficiency = Math.min(
     100,
     Math.max(0, Number(overallProficiency) || 0),
   );
+
+  const handleViewSkillGaps = () => {
+    if (onViewSkillGaps) {
+      onViewSkillGaps();
+      return;
+    }
+
+    navigate("/learner/skill-gaps");
+  };
+
+  const handleExploreRecommendations = () => {
+    navigate("/learner/recommendations");
+  };
 
   return (
     <section className="my-skills-header">
@@ -150,7 +166,7 @@ const MySkillsHeader = ({
               size="lg"
               rounded="lg"
               rightIcon={<FiArrowRight />}
-              onClick={onViewSkillGaps}
+              onClick={handleViewSkillGaps}
               className="my-skills-header__primary-button"
             >
               View Skill Gaps
@@ -161,7 +177,7 @@ const MySkillsHeader = ({
               size="lg"
               rounded="lg"
               leftIcon={<FiBookOpen />}
-              onClick={onExploreRecommendations}
+              onClick={handleExploreRecommendations}
               className="my-skills-header__secondary-button"
             >
               Explore Recommendations

@@ -3,7 +3,6 @@
 import React from "react";
 
 import {
-  FiArrowRight,
   FiBookOpen,
   FiCheckCircle,
   FiCompass,
@@ -31,16 +30,7 @@ import "./KnowledgeHeader.css";
    ✓ Explicit SVG sizing
 ========================================================= */
 
-const KnowledgeHeader = ({ onExploreRecommendations }) => {
-  const handleExploreRecommendations = () => {
-    if (typeof onExploreRecommendations === "function") {
-      onExploreRecommendations();
-      return;
-    }
-
-    console.log("Explore recommendations");
-  };
-
+const KnowledgeHeader = () => {
   return (
     <section className="knowledge-header">
       {/* =====================================================
@@ -114,19 +104,6 @@ const KnowledgeHeader = ({ onExploreRecommendations }) => {
               <span>Grow continuously</span>
             </div>
           </div>
-
-          {/* CTA */}
-          <button
-            type="button"
-            className="knowledge-header__button"
-            onClick={handleExploreRecommendations}
-          >
-            <span>Explore Recommendations</span>
-
-            <span className="knowledge-header__button-icon">
-              <FiArrowRight />
-            </span>
-          </button>
         </div>
 
         {/* ===================================================

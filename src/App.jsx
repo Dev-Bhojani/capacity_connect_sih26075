@@ -12,6 +12,10 @@ import Register from "./Pages/Auth/Register/Register";
 
 import Login from "./Pages/Auth/Login/Login";
 
+import AboutUs from "./Pages/AboutUs/AboutUs";
+
+import ContactUs from "./Pages/ContactUs/ContactUs";
+
 // =========================================================
 // APPLICATION ROUTES
 // =========================================================
@@ -45,6 +49,18 @@ function App() {
         ------------------------------------------------- */}
 
         <Route path="/" element={<Landing />} />
+
+        {/* -------------------------------------------------
+            ABOUT US
+        ------------------------------------------------- */}
+
+        <Route path="/about-us" element={<AboutUs />} />
+
+        {/* -------------------------------------------------
+            CONTACT US
+        ------------------------------------------------- */}
+
+        <Route path="/contact-us" element={<ContactUs />} />
 
         {/* -------------------------------------------------
             LOGIN

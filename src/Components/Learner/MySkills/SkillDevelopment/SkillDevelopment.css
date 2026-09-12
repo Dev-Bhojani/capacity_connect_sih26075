@@ -1156,7 +1156,7 @@
    ROWS BECOME 2-COLUMN
 ========================================================= */
 
-@media (max-width: 950px) {
+@media (max-width: 1300px) {
   .skill-development__row {
     grid-template-columns:
       minmax(230px, 1fr)

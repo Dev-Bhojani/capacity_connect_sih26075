@@ -6,7 +6,6 @@ import {
   FiBookOpen,
   FiBookmark,
   FiCalendar,
-  FiCheckCircle,
   FiClock,
   FiLayers,
   FiPlayCircle,
@@ -14,6 +13,7 @@ import {
   FiUser,
   FiX,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../../../Reusable_components/Card/Card";
 import Badge from "../../../../Reusable_components/Badge/Badge";
@@ -33,6 +33,8 @@ const ContinueLearning = ({
 
   initialSaved = false,
 }) => {
+  const navigate = useNavigate();
+
   /* =========================================================
      SAVE COURSE
   ========================================================= */
@@ -63,6 +65,7 @@ const ContinueLearning = ({
 
     return {
       image: course?.image || "",
+
       title: course?.title || "Course unavailable",
 
       description:
@@ -98,9 +101,6 @@ const ContinueLearning = ({
 
   /* =========================================================
      CURRENT MODULE / LESSON INFORMATION
-
-     These labels can later come directly from the API
-     when module and lesson details are available.
   ========================================================= */
 
   const currentModuleTitle =
@@ -126,9 +126,6 @@ const ContinueLearning = ({
 
   /* =========================================================
      ESTIMATED TIME
-
-     If backend later provides estimated remaining time,
-     it will automatically be used.
   ========================================================= */
 
   const estimatedTime =
@@ -138,8 +135,6 @@ const ContinueLearning = ({
 
   /* =========================================================
      LAST ACCESSED
-
-     Formats a real timestamp if available.
   ========================================================= */
 
   const formattedLastAccessed = useMemo(() => {
@@ -170,11 +165,23 @@ const ContinueLearning = ({
     setIsSaved((previous) => !previous);
   };
 
+  /* =========================================================
+     CONTINUE LEARNING
+     
+     User is already on My Learning page.
+     Scroll smoothly to the top instead of navigating again.
+  ========================================================= */
+
   const handleContinue = () => {
-    if (typeof onContinueLearning === "function") {
-      onContinueLearning(course);
-    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
+
+  /* =========================================================
+     VIEW COURSE DETAILS
+  ========================================================= */
 
   const handleViewCourse = () => {
     if (typeof onViewCourse === "function") {
@@ -182,16 +189,31 @@ const ContinueLearning = ({
     }
   };
 
+  /* =========================================================
+     VIEW ALL COURSES
+  ========================================================= */
+
   const handleViewAllCourses = () => {
     if (typeof onViewAllCourses === "function") {
       onViewAllCourses();
+      return;
     }
+
+    navigate("/learner/courses");
   };
 
+  /* =========================================================
+     GO TO LAST LESSON
+     
+     User is already on My Learning page.
+     Scroll smoothly to the top instead of navigating again.
+  ========================================================= */
+
   const handleLastLesson = () => {
-    if (typeof onGoToLastLesson === "function") {
-      onGoToLastLesson(course, enrollment);
-    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   /* =========================================================
@@ -210,8 +232,11 @@ const ContinueLearning = ({
 
       <div className="continue-learning__background" aria-hidden="true">
         <span className="continue-learning__background-orbit continue-learning__background-orbit--one" />
+
         <span className="continue-learning__background-orbit continue-learning__background-orbit--two" />
+
         <span className="continue-learning__background-glow continue-learning__background-glow--one" />
+
         <span className="continue-learning__background-glow continue-learning__background-glow--two" />
       </div>
 
@@ -463,6 +488,10 @@ const ContinueLearning = ({
                 </div>
 
                 <div className="continue-learning__actions">
+                  {/* =========================================
+                      CONTINUE LEARNING → TOP OF MY LEARNING
+                  ========================================= */}
+
                   <Button
                     variant="primary"
                     size="lg"
@@ -474,6 +503,10 @@ const ContinueLearning = ({
                     Continue Learning
                   </Button>
 
+                  {/* =========================================
+                      VIEW COURSE DETAILS
+                  ========================================= */}
+
                   <Button
                     variant="outline"
                     size="lg"
@@ -484,6 +517,10 @@ const ContinueLearning = ({
                   >
                     View Course Details
                   </Button>
+
+                  {/* =========================================
+                      GO TO LAST LESSON → TOP OF MY LEARNING
+                  ========================================= */}
 
                   <Button
                     variant="ghost"

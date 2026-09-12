@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import {
   FiArrowRight,
   FiBookOpen,
@@ -90,6 +92,8 @@ const RecommendationCard = ({
   onStartLearning,
   onViewCourse,
 }) => {
+  const navigate = useNavigate();
+
   /*
   |--------------------------------------------------------------------------
   | Helpers
@@ -139,7 +143,7 @@ const RecommendationCard = ({
         <button
           type="button"
           className="recommendation-section__view-all"
-          onClick={onViewAllRecommendations}
+          onClick={() => navigate("/learner/recommendations")}
         >
           <span>View All Recommendations</span>
           <FiArrowRight aria-hidden="true" />
@@ -276,7 +280,7 @@ const RecommendationCard = ({
               <button
                 type="button"
                 className="recommendation-featured-card__action"
-                onClick={onStartLearning}
+                onClick={() => navigate("/learner/learning")}
               >
                 <span>Start Learning</span>
                 <FiArrowRight aria-hidden="true" />
@@ -396,7 +400,7 @@ const RecommendationCard = ({
               <button
                 type="button"
                 className="recommendation-course-card__action"
-                onClick={() => onViewCourse?.(course)}
+                onClick={() => navigate("/learner/courses")}
               >
                 <span>View Course</span>
 

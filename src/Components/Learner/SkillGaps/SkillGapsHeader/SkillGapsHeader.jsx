@@ -11,15 +11,14 @@ import {
   FiGrid,
   FiTrendingUp,
   FiAward,
-  FiCheckCircle,
   FiZap,
   FiCompass,
   FiActivity,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../../../Reusable_components/Card/Card";
 import Badge from "../../../../Reusable_components/Badge/Badge";
-import Button from "../../../../Reusable_components/Button/Button";
 import ProgressBar from "../../../../Reusable_components/ProgressBar/ProgressBar";
 
 import "./SkillGapsHeader.css";
@@ -56,11 +55,9 @@ const DEFAULT_STATS = {
 |--------------------------------------------------------------------------
 */
 
-const SkillGapsHeader = ({
-  stats = {},
-  onExploreSkillGaps,
-  onViewLearningResources,
-}) => {
+const SkillGapsHeader = ({ stats = {}, onViewLearningResources }) => {
+  const navigate = useNavigate();
+
   /*
   |--------------------------------------------------------------------------
   | Safe Stats
@@ -78,9 +75,6 @@ const SkillGapsHeader = ({
   |--------------------------------------------------------------------------
   | Average Gap
   |--------------------------------------------------------------------------
-  | Your current skills.js does not contain target levels yet,
-  | therefore this remains a presentation value for now.
-  | It can later come directly from skillGaps.js.
   */
 
   const averageGap = Number(stats?.averageGap) || DEFAULT_STATS.averageGap;
@@ -98,20 +92,14 @@ const SkillGapsHeader = ({
 
   /*
   |--------------------------------------------------------------------------
-  | Button Handlers
+  | View Learning Resources
+  |--------------------------------------------------------------------------
+  | Redirects to the Course Catalog page.
   |--------------------------------------------------------------------------
   */
 
-  const handleExploreSkillGaps = () => {
-    if (onExploreSkillGaps) {
-      onExploreSkillGaps();
-    }
-  };
-
   const handleViewLearningResources = () => {
-    if (onViewLearningResources) {
-      onViewLearningResources();
-    }
+    navigate("/learner/courses");
   };
 
   return (
@@ -242,29 +230,21 @@ const SkillGapsHeader = ({
             </p>
 
             {/* =================================================
-                ACTIONS
+                ACTION
             ================================================= */}
 
             <div className="skill-gaps-header__actions">
-              <Button
-                variant="primary"
-                size="lg"
-                rightIcon={<FiArrowRight aria-hidden="true" />}
-                onClick={handleExploreSkillGaps}
-                className="skill-gaps-header__primary-button"
-              >
-                Explore Skill Gaps
-              </Button>
-
-              <Button
-                variant="outline"
-                size="lg"
-                leftIcon={<FiBookOpen aria-hidden="true" />}
-                onClick={handleViewLearningResources}
+              <button
+                type="button"
                 className="skill-gaps-header__secondary-button"
+                onClick={handleViewLearningResources}
               >
-                View Learning Resources
-              </Button>
+                <FiBookOpen aria-hidden="true" />
+
+                <span>View Learning Resources</span>
+
+                <FiArrowRight aria-hidden="true" />
+              </button>
             </div>
           </div>
 
@@ -275,8 +255,6 @@ const SkillGapsHeader = ({
           <div className="skill-gaps-header__visual">
             {/* =================================================
                 OCEAN / IMAGE AREA
-
-                Image path intentionally empty for now.
             ================================================= */}
 
             <div
@@ -305,7 +283,12 @@ const SkillGapsHeader = ({
                 <div className="skill-gaps-header__growth-ring">
                   <div className="skill-gaps-header__ring-track" />
 
-                  <div className="skill-gaps-header__ring-progress" />
+                  <div
+                    className="skill-gaps-header__ring-progress"
+                    style={{
+                      "--growth-progress": `${growthProgress}%`,
+                    }}
+                  />
 
                   <div className="skill-gaps-header__growth-center">
                     <span className="skill-gaps-header__growth-icon">

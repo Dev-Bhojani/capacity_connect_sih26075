@@ -14,6 +14,7 @@ import {
   FiTarget,
   FiTrendingUp,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../../../Reusable_components/Card/Card";
 import Badge from "../../../../Reusable_components/Badge/Badge";
@@ -55,9 +56,10 @@ const getSkillIcon = (skillName) => {
 
 const SkillGapOverview = ({
   learnerId = CURRENT_LEARNER_ID,
-  onExploreResources,
   onViewSkillDetails,
 }) => {
+  const navigate = useNavigate();
+
   /* =======================================================
      LEARNER SKILLS
   ======================================================= */
@@ -166,20 +168,16 @@ const SkillGapOverview = ({
   const highPrioritySkills = skillsWithGaps.slice(0, 3);
 
   /* =======================================================
-     HANDLE ACTION
+     EXPLORE LEARNING RESOURCES
+     REDIRECT TO COURSE CATALOG
   ======================================================= */
 
   const handleExploreResources = () => {
-    if (typeof onExploreResources === "function") {
-      onExploreResources(biggestOpportunity);
-      return;
-    }
-
-    console.log("Explore learning resources:", biggestOpportunity);
+    navigate("/learner/courses");
   };
 
   /* =======================================================
-     HANDLE SKILL DETAILS
+     VIEW SKILL DETAILS
   ======================================================= */
 
   const handleSkillDetails = (skill) => {
@@ -266,7 +264,7 @@ const SkillGapOverview = ({
                   const barHeight =
                     item.percentage === 0
                       ? 8
-                      : Math.max(28, (item.percentage / 35) * 170);
+                      : Math.max(8, (item.percentage / 100) * 145);
 
                   return (
                     <div
@@ -405,6 +403,10 @@ const SkillGapOverview = ({
                     : `Building your ${biggestOpportunity.name} foundation can create a strong path toward future learning opportunities.`}
                 </p>
 
+                {/* =========================================
+                    EXPLORE LEARNING RESOURCES
+                ========================================= */}
+
                 <Button
                   variant="primary"
                   size="md"
@@ -441,7 +443,7 @@ const SkillGapOverview = ({
 
         <div className="skill-gap-overview__bottom-grid">
           {/* =================================================
-              TOP SKILLS — GREEN
+              TOP SKILLS
           ================================================= */}
 
           <Card className="skill-gap-overview__bottom-card skill-gap-overview__bottom-card--green">
@@ -488,7 +490,7 @@ const SkillGapOverview = ({
           </Card>
 
           {/* =================================================
-              SKILLS NEEDING ATTENTION — RED
+              SKILLS NEEDING ATTENTION
           ================================================= */}
 
           <Card className="skill-gap-overview__bottom-card skill-gap-overview__bottom-card--red">
@@ -535,6 +537,7 @@ const SkillGapOverview = ({
               ) : (
                 <div className="skill-gap-overview__empty-row">
                   <FiCheckCircle />
+
                   <span>No skills need immediate attention.</span>
                 </div>
               )}
@@ -542,13 +545,13 @@ const SkillGapOverview = ({
           </Card>
 
           {/* =================================================
-              RECOMMENDED NEXT STEPS — WHITE / BLUE
+              RECOMMENDED NEXT STEPS
           ================================================= */}
 
           <Card className="skill-gap-overview__bottom-card skill-gap-overview__bottom-card--white">
             <div className="skill-gap-overview__bottom-heading">
               <div className="skill-gap-overview__bottom-icon">
-                <FiZap  />
+                <FiZap />
               </div>
 
               <div>
@@ -559,6 +562,8 @@ const SkillGapOverview = ({
             </div>
 
             <div className="skill-gap-overview__recommendation-list">
+              {/* EXPLORE RELEVANT COURSES */}
+
               <button
                 type="button"
                 className="skill-gap-overview__recommendation"
@@ -572,6 +577,8 @@ const SkillGapOverview = ({
 
                 <FiArrowRight />
               </button>
+
+              {/* PRACTICE WITH PROJECTS */}
 
               <button
                 type="button"
@@ -587,10 +594,12 @@ const SkillGapOverview = ({
                 <FiArrowRight />
               </button>
 
+              {/* TRACK PROGRESS */}
+
               <button
                 type="button"
                 className="skill-gap-overview__recommendation"
-                onClick={handleSkillDetails}
+                onClick={() => handleSkillDetails(null)}
               >
                 <span className="skill-gap-overview__recommendation-icon skill-gap-overview__recommendation-icon--violet">
                   <FiBarChart2 />

@@ -14,14 +14,13 @@ import {
   FiUsers,
   FiSend,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import "./CertificatesClosing.css";
 
-const CertificatesClosing = ({
-  stats = {},
-  onExploreCourses,
-  onBrowseLearningPaths,
-}) => {
+const CertificatesClosing = ({ stats = {} }) => {
+  const navigate = useNavigate();
+
   const {
     certificatesEarned = 6,
     verifiedCertificates = 6,
@@ -29,22 +28,16 @@ const CertificatesClosing = ({
     learningHours = 240,
   } = stats;
 
-  const handleExploreCourses = () => {
-    if (onExploreCourses) {
-      onExploreCourses();
-      return;
-    }
+  /* =========================================================
+     HANDLERS
+  ========================================================= */
 
-    console.log("Explore more courses");
+  const handleExploreCourses = () => {
+    navigate("/learner/courses");
   };
 
   const handleBrowseLearningPaths = () => {
-    if (onBrowseLearningPaths) {
-      onBrowseLearningPaths();
-      return;
-    }
-
-    console.log("Browse learning paths");
+    navigate("/learner/learning");
   };
 
   return (
@@ -65,6 +58,7 @@ const CertificatesClosing = ({
               <span className="closing-eyebrow__icon">
                 <FiArrowRight aria-hidden="true" />
               </span>
+
               <span className="closing-eyebrow__text">Keep Growing</span>
             </div>
 
@@ -79,6 +73,7 @@ const CertificatesClosing = ({
             </p>
 
             <div className="closing-actions">
+              {/* Explore More Courses */}
               <button
                 type="button"
                 className="closing-button closing-button--primary"
@@ -87,14 +82,17 @@ const CertificatesClosing = ({
                 <span className="closing-button__icon">
                   <FiBookOpen aria-hidden="true" />
                 </span>
+
                 <span className="closing-button__text">
                   Explore More Courses
                 </span>
+
                 <span className="closing-button__arrow">
                   <FiChevronRight aria-hidden="true" />
                 </span>
               </button>
 
+              {/* Browse Learning Paths */}
               <button
                 type="button"
                 className="closing-button closing-button--secondary"
@@ -103,9 +101,11 @@ const CertificatesClosing = ({
                 <span className="closing-button__icon">
                   <FiCompass aria-hidden="true" />
                 </span>
+
                 <span className="closing-button__text">
                   Browse Learning Paths
                 </span>
+
                 <span className="closing-button__arrow">
                   <FiChevronRight aria-hidden="true" />
                 </span>
@@ -174,11 +174,14 @@ const CertificatesClosing = ({
             <div className="closing-stat__icon">
               <FiBarChart2 aria-hidden="true" />
             </div>
+
             <div className="closing-stat__content">
               <strong className="closing-stat__number">
                 {certificatesEarned}
               </strong>
+
               <span className="closing-stat__label">Certificates Earned</span>
+
               <span className="closing-stat__helper">Keep going!</span>
             </div>
           </article>
@@ -187,11 +190,14 @@ const CertificatesClosing = ({
             <div className="closing-stat__icon">
               <FiShield aria-hidden="true" />
             </div>
+
             <div className="closing-stat__content">
               <strong className="closing-stat__number">
                 {verifiedCertificates}
               </strong>
+
               <span className="closing-stat__label">Verified Certificates</span>
+
               <span className="closing-stat__helper">Globally recognized</span>
             </div>
           </article>
@@ -200,9 +206,12 @@ const CertificatesClosing = ({
             <div className="closing-stat__icon">
               <FiStar aria-hidden="true" />
             </div>
+
             <div className="closing-stat__content">
               <strong className="closing-stat__number">{averageScore}%</strong>
+
               <span className="closing-stat__label">Average Score</span>
+
               <span className="closing-stat__helper">Across all courses</span>
             </div>
           </article>
@@ -211,9 +220,12 @@ const CertificatesClosing = ({
             <div className="closing-stat__icon">
               <FiClock aria-hidden="true" />
             </div>
+
             <div className="closing-stat__content">
               <strong className="closing-stat__number">{learningHours}+</strong>
+
               <span className="closing-stat__label">Learning Hours</span>
+
               <span className="closing-stat__helper">Time well invested</span>
             </div>
           </article>
@@ -227,6 +239,7 @@ const CertificatesClosing = ({
             <div className="closing-feature__icon closing-feature__icon--rose">
               <FiSend aria-hidden="true" />
             </div>
+
             <div className="closing-feature__content">
               <strong>Discover More</strong>
               <span>Explore new courses and trending skills.</span>
@@ -237,6 +250,7 @@ const CertificatesClosing = ({
             <div className="closing-feature__icon closing-feature__icon--blue">
               <FiUser aria-hidden="true" />
             </div>
+
             <div className="closing-feature__content">
               <strong>Build Your Career</strong>
               <span>Add more certifications to your professional profile.</span>
@@ -247,6 +261,7 @@ const CertificatesClosing = ({
             <div className="closing-feature__icon closing-feature__icon--green">
               <FiGlobe aria-hidden="true" />
             </div>
+
             <div className="closing-feature__content">
               <strong>Get Recognized</strong>
               <span>Showcase your achievements to the world.</span>
@@ -257,6 +272,7 @@ const CertificatesClosing = ({
             <div className="closing-feature__icon closing-feature__icon--purple">
               <FiUsers aria-hidden="true" />
             </div>
+
             <div className="closing-feature__content">
               <strong>Join a Growing Community</strong>
               <span>Learn, share, and grow with fellow learners.</span>
@@ -271,9 +287,11 @@ const CertificatesClosing = ({
           <span className="closing-quote__mark closing-quote__mark--open">
             &ldquo;
           </span>
+
           <span className="closing-quote__text">
             Small steps today, extraordinary opportunities tomorrow.
           </span>
+
           <span className="closing-quote__mark closing-quote__mark--close">
             &rdquo;
           </span>

@@ -3,12 +3,14 @@ import { FiArrowRight, FiAward, FiBookOpen, FiTarget } from "react-icons/fi";
 import Button from "../../../Reusable_components/Button/Button";
 
 import "./WelcomeBanner.css";
+import { useNavigate } from "react-router-dom";
 
 /* =========================================================
    LEARNER WELCOME BANNER
 ========================================================= */
 
 const WelcomeBanner = ({ name = "Dev", onProfileClick }) => {
+  const navigate = useNavigate();
   return (
     <section className="welcome-banner" aria-labelledby="welcome-banner-title">
       {/* ===================================================
@@ -70,7 +72,7 @@ const WelcomeBanner = ({ name = "Dev", onProfileClick }) => {
             size="sm"
             rounded="full"
             rightIcon={<FiArrowRight />}
-            onClick={onProfileClick}
+            onClick={() => navigate("/learner/profile")}
             className="welcome-banner__button"
           >
             View Profile

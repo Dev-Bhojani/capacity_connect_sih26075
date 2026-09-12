@@ -1,6 +1,7 @@
 // src/Components/Learner/Recommendations/LearningPaths/LearningPaths.jsx
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   FiArrowRight,
@@ -28,10 +29,6 @@ import "./LearningPaths.css";
 
 /* =========================================================
    LEARNING PATH DATA
-
-   API-ready structure.
-
-   Later this can directly come from your backend.
 ========================================================= */
 
 const learningPaths = [
@@ -44,20 +41,13 @@ const learningPaths = [
     category: "Development",
     icon: "code",
     theme: "blue",
-
     progress: 72,
-
     coursesCompleted: 4,
     totalCourses: 6,
-
     duration: "8 weeks",
-
     level: "Intermediate",
-
     nextCourse: "Advanced React Patterns",
-
     skills: ["JavaScript", "React", "UI Development"],
-
     highlights: ["Modern JavaScript", "React architecture", "Responsive UI"],
   },
 
@@ -70,20 +60,13 @@ const learningPaths = [
     category: "Data",
     icon: "database",
     theme: "green",
-
     progress: 58,
-
     coursesCompleted: 2,
     totalCourses: 5,
-
     duration: "10 weeks",
-
     level: "Developing",
-
     nextCourse: "Python for Data Analysis",
-
     skills: ["Python", "Data Analysis", "SQL"],
-
     highlights: [
       "Python fundamentals",
       "Data manipulation",
@@ -100,20 +83,13 @@ const learningPaths = [
     category: "Professional",
     icon: "users",
     theme: "purple",
-
     progress: 64,
-
     coursesCompleted: 3,
     totalCourses: 5,
-
     duration: "6 weeks",
-
     level: "Intermediate",
-
     nextCourse: "Leadership Essentials",
-
     skills: ["Communication", "Teamwork", "Leadership"],
-
     highlights: [
       "Leadership skills",
       "Team collaboration",
@@ -130,20 +106,13 @@ const learningPaths = [
     category: "Domain",
     icon: "layers",
     theme: "amber",
-
     progress: 70,
-
     coursesCompleted: 3,
     totalCourses: 4,
-
     duration: "7 weeks",
-
     level: "Proficient",
-
     nextCourse: "Marine Research Essentials",
-
     skills: ["Ocean Science", "Research", "Marine Systems"],
-
     highlights: ["Ocean fundamentals", "Marine systems", "Research methods"],
   },
 ];
@@ -164,6 +133,8 @@ const pathIcons = {
 ========================================================= */
 
 const LearningPaths = ({ onContinuePath, onViewAllPaths }) => {
+  const navigate = useNavigate();
+
   const [expandedPath, setExpandedPath] = useState(null);
 
   /* =======================================================
@@ -171,21 +142,17 @@ const LearningPaths = ({ onContinuePath, onViewAllPaths }) => {
   ======================================================= */
 
   const handleContinuePath = (path) => {
-    if (typeof onContinuePath === "function") {
-      onContinuePath(path);
-      return;
-    }
-
-    console.log("Continue learning path:", path);
+    navigate("/learner/learning");
   };
 
-  const handleViewAllPaths = () => {
-    if (typeof onViewAllPaths === "function") {
-      onViewAllPaths();
-      return;
-    }
+  /* =======================================================
+     VIEW ALL PATHS
+     
+     Redirects to My Learning page.
+  ======================================================= */
 
-    console.log("View all learning paths");
+  const handleViewAllPaths = () => {
+    navigate("/learner/learning");
   };
 
   const handleTogglePath = (pathId) => {

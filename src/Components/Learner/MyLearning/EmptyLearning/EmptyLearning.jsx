@@ -12,6 +12,7 @@ import {
   FiTrendingUp,
   FiUsers,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../../../Reusable_components/Card/Card";
 import Button from "../../../../Reusable_components/Button/Button";
@@ -19,16 +20,32 @@ import Button from "../../../../Reusable_components/Button/Button";
 import "./EmptyLearning.css";
 
 const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
+  const navigate = useNavigate();
+
+  /* =========================================================
+     NAVIGATION HANDLERS
+  ========================================================= */
+
   const handleExploreCourses = () => {
-    if (onExploreCourses) {
-      onExploreCourses();
-    }
+    navigate("/learner/courses");
   };
 
   const handleRecommendations = () => {
-    if (onViewRecommendations) {
-      onViewRecommendations();
-    }
+    navigate("/learner/recommendations");
+  };
+
+  /* =========================================================
+     START LEARNING
+     
+     User is already on the My Learning page.
+     Scroll smoothly to the top of the current page.
+  ========================================================= */
+
+  const handleStartLearning = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -79,11 +96,13 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
 
           <Card variant="glass" className="empty-learning__hero-card">
             <div className="empty-learning__hero-glow empty-learning__hero-glow--one" />
+
             <div className="empty-learning__hero-glow empty-learning__hero-glow--two" />
 
             <div className="empty-learning__hero-grid" />
 
             <div className="empty-learning__hero-orbit empty-learning__hero-orbit--one" />
+
             <div className="empty-learning__hero-orbit empty-learning__hero-orbit--two" />
 
             <div className="empty-learning__hero-content">
@@ -107,6 +126,10 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
               </div>
 
               <div className="empty-learning__hero-actions">
+                {/* =============================================
+                    EXPLORE COURSE CATALOG
+                ============================================= */}
+
                 <Button
                   variant="primary"
                   size="lg"
@@ -116,6 +139,10 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
                 >
                   Explore Course Catalog
                 </Button>
+
+                {/* =============================================
+                    RECOMMENDATIONS
+                ============================================= */}
 
                 <button
                   type="button"
@@ -137,6 +164,7 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
 
                 <div>
                   <strong>Multiple learning paths</strong>
+
                   <span>Skills • Technology • Science</span>
                 </div>
               </div>
@@ -148,6 +176,7 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
 
                 <div>
                   <strong>Verified learning</strong>
+
                   <span>Certificates on completion</span>
                 </div>
               </div>
@@ -180,6 +209,7 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
                   <span>
                     <FiBookOpen />
                   </span>
+
                   <strong>Expert-led courses</strong>
                 </div>
 
@@ -187,6 +217,7 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
                   <span>
                     <FiTrendingUp />
                   </span>
+
                   <strong>Career-relevant skills</strong>
                 </div>
 
@@ -194,9 +225,14 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
                   <span>
                     <FiUsers />
                   </span>
+
                   <strong>Learn with a community</strong>
                 </div>
               </div>
+
+              {/* =============================================
+                  BROWSE COURSES
+              ============================================= */}
 
               <Button
                 variant="outline"
@@ -237,12 +273,17 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
                 </p>
               </div>
 
+              {/* =============================================
+                  EXPLORE RECOMMENDATIONS
+              ============================================= */}
+
               <button
                 type="button"
                 className="empty-learning__recommendation-action"
                 onClick={handleRecommendations}
               >
                 <span>Explore recommendations</span>
+
                 <FiArrowRight />
               </button>
             </Card>
@@ -271,6 +312,7 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
 
           <div className="empty-learning__benefit-grid">
             {/* GREEN */}
+
             <Card
               variant="glass"
               className="empty-learning__benefit-card empty-learning__benefit-card--green"
@@ -296,6 +338,7 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
             </Card>
 
             {/* CYAN */}
+
             <Card
               variant="glass"
               className="empty-learning__benefit-card empty-learning__benefit-card--cyan"
@@ -321,6 +364,7 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
             </Card>
 
             {/* AMBER */}
+
             <Card
               variant="glass"
               className="empty-learning__benefit-card empty-learning__benefit-card--amber"
@@ -354,9 +398,13 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
         <Card variant="glass" className="empty-learning__path-card">
           <div className="empty-learning__path-background">
             <span className="empty-learning__path-line empty-learning__path-line--one" />
+
             <span className="empty-learning__path-line empty-learning__path-line--two" />
+
             <span className="empty-learning__path-node empty-learning__path-node--one" />
+
             <span className="empty-learning__path-node empty-learning__path-node--two" />
+
             <span className="empty-learning__path-node empty-learning__path-node--three" />
           </div>
 
@@ -375,12 +423,18 @@ const EmptyLearning = ({ onExploreCourses, onViewRecommendations }) => {
             </p>
           </div>
 
+          {/* =============================================
+              START LEARNING
+              
+              Stay on My Learning and scroll to top.
+          ============================================= */}
+
           <Button
             variant="ghost"
             size="md"
             rounded="lg"
             rightIcon={<FiArrowRight />}
-            onClick={handleExploreCourses}
+            onClick={handleStartLearning}
             className="empty-learning__path-button"
           >
             Start Learning

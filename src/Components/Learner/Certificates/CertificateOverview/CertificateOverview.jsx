@@ -8,14 +8,13 @@ import {
   FiTarget,
   FiTrendingUp,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import "./CertificateOverview.css";
 
-const CertificateOverview = ({
-  stats = {},
-  latestCertificate = null,
-  onExploreCourses,
-}) => {
+const CertificateOverview = ({ stats = {}, latestCertificate = null }) => {
+  const navigate = useNavigate();
+
   /* =========================================================
      SAFE DATA
   ========================================================= */
@@ -150,12 +149,7 @@ const CertificateOverview = ({
   ========================================================= */
 
   const handleExploreCourses = () => {
-    if (typeof onExploreCourses === "function") {
-      onExploreCourses();
-      return;
-    }
-
-    console.log("Explore more courses");
+    navigate("/learner/courses");
   };
 
   /* =========================================================
@@ -354,7 +348,7 @@ const CertificateOverview = ({
             </div>
 
             <div className="achievement-snapshot__items">
-              {achievementItems.map((item, index) => {
+              {achievementItems.map((item) => {
                 const Icon = item.icon;
 
                 return (

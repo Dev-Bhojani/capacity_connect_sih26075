@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import {
   FiArrowRight,
   FiAward,
@@ -114,6 +116,8 @@ const weeklyActivity = [
 ];
 
 const SkillProgressCard = ({ onViewSkills }) => {
+  const navigate = useNavigate();
+
   /*
   |--------------------------------------------------------------------------
   | Helper Functions
@@ -177,7 +181,7 @@ const SkillProgressCard = ({ onViewSkills }) => {
         <button
           type="button"
           className="skill-progress-section__view-all"
-          onClick={onViewSkills}
+          onClick={() => navigate("/learner/skills")}
         >
           <span>View All Skills</span>
           <FiArrowRight aria-hidden="true" />
@@ -512,7 +516,7 @@ const SkillProgressCard = ({ onViewSkills }) => {
         <button
           type="button"
           className="skill-progress-section__footer-action"
-          onClick={onViewSkills}
+          onClick={() => navigate("/learner/skills")}
         >
           Explore My Skills
           <FiArrowRight aria-hidden="true" />

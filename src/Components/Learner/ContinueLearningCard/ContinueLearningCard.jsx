@@ -8,6 +8,8 @@ import {
   FiTarget,
 } from "react-icons/fi";
 
+import { useNavigate } from "react-router-dom";
+
 import Card from "../../../Reusable_components/Card/Card";
 import Badge from "../../../Reusable_components/Badge/Badge";
 import ProgressBar from "../../../Reusable_components/ProgressBar/ProgressBar";
@@ -66,6 +68,8 @@ const upcomingModules = [
 ];
 
 const ContinueLearningCard = ({ onContinueLearning, onViewCourse }) => {
+  const navigate = useNavigate();
+
   return (
     <section
       className="continue-learning-section"
@@ -97,7 +101,7 @@ const ContinueLearningCard = ({ onContinueLearning, onViewCourse }) => {
         <button
           type="button"
           className="continue-learning-section__view-course"
-          onClick={onViewCourse}
+          onClick={() => navigate("/learner/courses")}
         >
           <span>View Course</span>
           <FiArrowRight aria-hidden="true" />
@@ -242,7 +246,7 @@ const ContinueLearningCard = ({ onContinueLearning, onViewCourse }) => {
               <button
                 type="button"
                 className="continue-learning-card__continue-button"
-                onClick={onContinueLearning}
+                onClick={() => navigate("/learner/learning")}
               >
                 <FiPlay aria-hidden="true" />
 

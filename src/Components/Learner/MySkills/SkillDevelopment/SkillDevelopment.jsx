@@ -16,6 +16,7 @@ import {
   FiAward,
   FiCompass,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../../../../Reusable_components/Card/Card";
 import Badge from "../../../../Reusable_components/Badge/Badge";
@@ -182,8 +183,34 @@ const SkillDevelopment = ({
   onViewSkillDetails,
   onSetLearningGoals,
 }) => {
+  const navigate = useNavigate();
+
   const [activeCategory, setActiveCategory] = React.useState("all");
   const [searchTerm, setSearchTerm] = React.useState("");
+
+  /* -------------------------------------------------------
+     VIEW ALL SKILLS
+  ------------------------------------------------------- */
+
+  const handleViewAllSkills = () => {
+    navigate("/learner/courses");
+  };
+
+  /* -------------------------------------------------------
+     VIEW SKILL DETAILS
+  ------------------------------------------------------- */
+
+  const handleViewSkillDetails = (skill) => {
+    navigate("/learner/courses");
+  };
+
+  /* -------------------------------------------------------
+     SET LEARNING GOALS
+  ------------------------------------------------------- */
+
+  const handleSetLearningGoals = () => {
+    navigate("/learner/learning");
+  };
 
   /* -------------------------------------------------------
      FILTER SKILLS
@@ -239,7 +266,7 @@ const SkillDevelopment = ({
             size="md"
             rounded="lg"
             rightIcon={<FiArrowRight />}
-            onClick={onViewAllSkills}
+            onClick={handleViewAllSkills}
             className="skill-development__view-all"
           >
             View All Skills
@@ -402,7 +429,7 @@ const SkillDevelopment = ({
                     size="md"
                     rounded="lg"
                     rightIcon={<FiArrowRight />}
-                    onClick={() => onViewSkillDetails?.(skill)}
+                    onClick={() => handleViewSkillDetails(skill)}
                     className="skill-development__details-button"
                   >
                     View Details
@@ -449,7 +476,7 @@ const SkillDevelopment = ({
             size="md"
             rounded="lg"
             rightIcon={<FiArrowRight />}
-            onClick={onSetLearningGoals}
+            onClick={handleSetLearningGoals}
             className="skill-development__goal-button"
           >
             Set Learning Goals

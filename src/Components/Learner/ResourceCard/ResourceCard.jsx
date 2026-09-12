@@ -12,6 +12,8 @@ import {
   FiShield,
 } from "react-icons/fi";
 
+import { useNavigate } from "react-router-dom";
+
 import Card from "../../../Reusable_components/Card/Card";
 import Badge from "../../../Reusable_components/Badge/Badge";
 import Button from "../../../Reusable_components/Button/Button";
@@ -89,9 +91,38 @@ const ResourceIcon = ({ type }) => {
 };
 
 const ResourceCard = ({
-  onViewAllResources = () => console.log("Navigate to Knowledge Hub"),
+  onViewAllResources,
   onViewResource = (resource) => console.log("View Resource:", resource),
 }) => {
+  const navigate = useNavigate();
+
+  /* =====================================================
+     VIEW ALL RESOURCES
+     → Knowledge Hub
+  ===================================================== */
+
+  const handleViewAllResources = () => {
+    navigate("/learner/knowledge-hub");
+  };
+
+  /* =====================================================
+     READ FEATURED RESOURCE
+     → Course Catalog
+  ===================================================== */
+
+  const handleReadResource = () => {
+    navigate("/learner/courses");
+  };
+
+  /* =====================================================
+     VIEW / WATCH RESOURCE
+     → Course Catalog
+  ===================================================== */
+
+  const handleResourceAction = () => {
+    navigate("/learner/courses");
+  };
+
   return (
     <section
       className="resource-section"
@@ -99,7 +130,8 @@ const ResourceCard = ({
     >
       {/* =====================================================
           SECTION HEADER
-          ===================================================== */}
+      ===================================================== */}
+
       <div className="resource-section__header">
         <div className="resource-section__heading">
           <span className="resource-section__eyebrow">KNOWLEDGE HUB</span>
@@ -118,7 +150,7 @@ const ResourceCard = ({
           variant="ghost"
           size="sm"
           rightIcon={<FiChevronRight />}
-          onClick={onViewAllResources}
+          onClick={handleViewAllResources}
         >
           View All
         </Button>
@@ -126,7 +158,8 @@ const ResourceCard = ({
 
       {/* =====================================================
           FEATURED RESOURCE
-          ===================================================== */}
+      ===================================================== */}
+
       <div className="resource-featured-card">
         <div className="resource-featured-card__visual">
           <div className="resource-featured-card__visual-glass">
@@ -200,7 +233,7 @@ const ResourceCard = ({
               variant="primary"
               size="md"
               rightIcon={<FiArrowUpRight />}
-              onClick={() => onViewResource(featuredResource)}
+              onClick={handleReadResource}
             >
               Read Resource
             </Button>
@@ -216,7 +249,8 @@ const ResourceCard = ({
 
       {/* =====================================================
           RESOURCE GRID
-          ===================================================== */}
+      ===================================================== */}
+
       <div className="resource-grid">
         {resources.map((resource) => (
           <Card
@@ -224,6 +258,10 @@ const ResourceCard = ({
             variant="default"
             className={`resource-mini-card resource-mini-card--${resource.accent}`}
           >
+            {/* -------------------------------------------------
+                RESOURCE HEADER
+            -------------------------------------------------- */}
+
             <div className="resource-mini-card__header">
               <div className="resource-mini-card__type">
                 <div className="resource-mini-card__icon">
@@ -238,6 +276,10 @@ const ResourceCard = ({
               </Badge>
             </div>
 
+            {/* -------------------------------------------------
+                RESOURCE BODY
+            -------------------------------------------------- */}
+
             <div className="resource-mini-card__body">
               <span className="resource-mini-card__category">
                 {resource.category}
@@ -247,6 +289,10 @@ const ResourceCard = ({
 
               <p>{resource.description}</p>
             </div>
+
+            {/* -------------------------------------------------
+                RESOURCE META
+            -------------------------------------------------- */}
 
             <div className="resource-mini-card__meta">
               <div>
@@ -262,6 +308,10 @@ const ResourceCard = ({
               </div>
             </div>
 
+            {/* -------------------------------------------------
+                RESOURCE FOOTER
+            -------------------------------------------------- */}
+
             <div className="resource-mini-card__footer">
               <div className="resource-mini-card__source">
                 <span>Source</span>
@@ -273,7 +323,7 @@ const ResourceCard = ({
                 variant="ghost"
                 size="sm"
                 rightIcon={<FiChevronRight />}
-                onClick={() => onViewResource(resource)}
+                onClick={handleResourceAction}
               >
                 {resource.type === "Video" ? "Watch" : "View"}
               </Button>
@@ -284,7 +334,8 @@ const ResourceCard = ({
 
       {/* =====================================================
           KNOWLEDGE HUB INSIGHT
-          ===================================================== */}
+      ===================================================== */}
+
       <div className="resource-insight">
         <div className="resource-insight__icon">
           <FiHeadphones />
@@ -302,7 +353,7 @@ const ResourceCard = ({
           variant="outline"
           size="sm"
           rightIcon={<FiArrowUpRight />}
-          onClick={onViewAllResources}
+          onClick={handleViewAllResources}
         >
           Explore Hub
         </Button>

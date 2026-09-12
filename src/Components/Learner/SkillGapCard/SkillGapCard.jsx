@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import {
   FiAlertCircle,
   FiArrowRight,
@@ -56,6 +58,8 @@ const skillGaps = [
 ];
 
 const SkillGapCard = ({ onViewSkillGaps, onExploreTraining }) => {
+  const navigate = useNavigate();
+
   /*
   |--------------------------------------------------------------------------
   | Derived Data
@@ -122,7 +126,7 @@ const SkillGapCard = ({ onViewSkillGaps, onExploreTraining }) => {
         <button
           type="button"
           className="skill-gap-section__view-all"
-          onClick={onViewSkillGaps}
+          onClick={() => navigate("/learner/skill-gaps")}
         >
           <span>View All Skill Gaps</span>
           <FiArrowRight aria-hidden="true" />
@@ -431,7 +435,7 @@ const SkillGapCard = ({ onViewSkillGaps, onExploreTraining }) => {
           </span>
         </div>
 
-        <button type="button" onClick={onViewSkillGaps}>
+        <button type="button" onClick={() => navigate("/learner/skill-gaps")}>
           Review Skill Gaps
           <FiArrowRight aria-hidden="true" />
         </button>

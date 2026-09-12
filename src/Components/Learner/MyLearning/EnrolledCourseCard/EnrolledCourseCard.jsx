@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import {
+  FiArrowDownRight,
   FiArrowRight,
   FiAward,
   FiBookOpen,
@@ -33,10 +34,18 @@ const EnrolledCourseCard = ({
     Boolean(course?.isFavorite || course?.saved),
   );
 
+  /* =========================================================
+     COURSE PROGRESS
+  ========================================================= */
+
   const progress = Math.min(
     100,
     Math.max(0, Number(enrollment?.progress) || 0),
   );
+
+  /* =========================================================
+     COURSE STATUS
+  ========================================================= */
 
   const status = useMemo(() => {
     if (enrollment?.status === "completed" || progress >= 100) {
@@ -49,6 +58,10 @@ const EnrolledCourseCard = ({
 
     return "not-started";
   }, [enrollment?.status, progress]);
+
+  /* =========================================================
+     STATUS CONFIGURATION
+  ========================================================= */
 
   const statusConfig = {
     completed: {
@@ -72,6 +85,10 @@ const EnrolledCourseCard = ({
 
   const currentStatus = statusConfig[status];
 
+  /* =========================================================
+     COURSE INFORMATION
+  ========================================================= */
+
   const safeTitle = course?.title || "Course unavailable";
 
   const category =
@@ -93,6 +110,10 @@ const EnrolledCourseCard = ({
 
   const currentLesson = Number(enrollment?.currentLesson) || 1;
 
+  /* =========================================================
+     SAVE COURSE
+  ========================================================= */
+
   const handleToggleSave = () => {
     const nextSavedState = !isSaved;
 
@@ -103,16 +124,28 @@ const EnrolledCourseCard = ({
     }
   };
 
+  /* =========================================================
+     VIEW COURSE
+  ========================================================= */
+
   const handleViewCourse = () => {
     if (onViewCourse) {
       onViewCourse(course?.id);
     }
   };
 
+  /* =========================================================
+     CONTINUE / START LEARNING
+     
+     User is already on My Learning page.
+     Scroll smoothly to the top of the current page.
+  ========================================================= */
+
   const handleContinueLearning = () => {
-    if (onContinueLearning) {
-      onContinueLearning(course?.id);
-    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -143,6 +176,7 @@ const EnrolledCourseCard = ({
               <div className="enrolled-course-card__placeholder-grid" />
 
               <div className="enrolled-course-card__placeholder-orbit enrolled-course-card__placeholder-orbit--one" />
+
               <div className="enrolled-course-card__placeholder-orbit enrolled-course-card__placeholder-orbit--two" />
 
               <div className="enrolled-course-card__placeholder-icon">
@@ -150,9 +184,14 @@ const EnrolledCourseCard = ({
               </div>
 
               <div className="enrolled-course-card__placeholder-wave enrolled-course-card__placeholder-wave--one" />
+
               <div className="enrolled-course-card__placeholder-wave enrolled-course-card__placeholder-wave--two" />
             </div>
           )}
+
+          {/* =================================================
+              COURSE STATUS
+          ================================================= */}
 
           <div className="enrolled-course-card__visual-top">
             <Badge
@@ -168,6 +207,8 @@ const EnrolledCourseCard = ({
 
               <span>{currentStatus.label}</span>
             </Badge>
+
+            {/* Save */}
 
             <button
               type="button"
@@ -190,6 +231,10 @@ const EnrolledCourseCard = ({
             </button>
           </div>
 
+          {/* =================================================
+              VISUAL BOTTOM
+          ================================================= */}
+
           <div className="enrolled-course-card__visual-bottom">
             <div className="enrolled-course-card__visual-category">
               <FiLayers />
@@ -208,9 +253,9 @@ const EnrolledCourseCard = ({
         ===================================================== */}
 
         <div className="enrolled-course-card__body">
-          {/* -------------------------------------------------
+          {/* =================================================
               COURSE IDENTITY
-          ------------------------------------------------- */}
+          ================================================= */}
 
           <div className="enrolled-course-card__identity">
             <div className="enrolled-course-card__title-block">
@@ -229,9 +274,9 @@ const EnrolledCourseCard = ({
             </div>
           </div>
 
-          {/* -------------------------------------------------
+          {/* =================================================
               COURSE INFORMATION STRIP
-          ------------------------------------------------- */}
+          ================================================= */}
 
           <div className="enrolled-course-card__information">
             <div className="enrolled-course-card__information-item enrolled-course-card__information-item--difficulty">
@@ -241,6 +286,7 @@ const EnrolledCourseCard = ({
 
               <span className="enrolled-course-card__information-copy">
                 <small>Level</small>
+
                 <strong>{difficulty}</strong>
               </span>
             </div>
@@ -252,6 +298,7 @@ const EnrolledCourseCard = ({
 
               <span className="enrolled-course-card__information-copy">
                 <small>Duration</small>
+
                 <strong>{duration}</strong>
               </span>
             </div>
@@ -263,6 +310,7 @@ const EnrolledCourseCard = ({
 
               <span className="enrolled-course-card__information-copy">
                 <small>Modules</small>
+
                 <strong>{modules > 0 ? modules : "—"}</strong>
               </span>
             </div>
@@ -274,6 +322,7 @@ const EnrolledCourseCard = ({
 
               <span className="enrolled-course-card__information-copy">
                 <small>Learners</small>
+
                 <strong>
                   {learners > 0 ? learners.toLocaleString() : "—"}
                 </strong>
@@ -374,6 +423,8 @@ const EnrolledCourseCard = ({
           ================================================= */}
 
           <div className="enrolled-course-card__actions">
+            {/* View Course */}
+
             <Button
               variant="outline"
               size="md"
@@ -383,6 +434,8 @@ const EnrolledCourseCard = ({
             >
               View Course
             </Button>
+
+            {/* Start / Continue / Certificate */}
 
             <Button
               variant="primary"

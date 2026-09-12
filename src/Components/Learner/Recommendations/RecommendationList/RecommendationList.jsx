@@ -1,6 +1,7 @@
 // src/Components/Learner/Recommendations/RecommendationList/RecommendationList.jsx
 
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   FiArrowLeft,
@@ -176,6 +177,8 @@ const DESKTOP_PAGE_SIZE = 4;
 ========================================================= */
 
 const RecommendationList = ({ stats, onViewAllCourses, onExploreCourse }) => {
+  const navigate = useNavigate();
+
   const [activeCategory, setActiveCategory] = useState("All");
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -225,11 +228,7 @@ const RecommendationList = ({ stats, onViewAllCourses, onExploreCourse }) => {
 
   /* =======================================================
      TOTAL PAGES
-
-     Example:
-
-     8 courses / 4 = 2 pages
-======================================================= */
+  ======================================================= */
 
   const totalPages = Math.max(
     1,
@@ -246,9 +245,6 @@ const RecommendationList = ({ stats, onViewAllCourses, onExploreCourse }) => {
 
   /* =======================================================
      SAFETY
-
-     If filtering changes the number of pages, make sure
-     currentPage never points to a non-existing page.
   ======================================================= */
 
   useEffect(() => {
@@ -259,9 +255,6 @@ const RecommendationList = ({ stats, onViewAllCourses, onExploreCourse }) => {
 
   /* =======================================================
      CURRENT FOUR COURSES
-
-     Page 0 → 0,1,2,3
-     Page 1 → 4,5,6,7
   ======================================================= */
 
   const visibleCourses = useMemo(() => {
@@ -304,16 +297,17 @@ const RecommendationList = ({ stats, onViewAllCourses, onExploreCourse }) => {
       return;
     }
 
-    console.log("View all recommended courses");
+    navigate("/learner/courses");
   };
 
-  const handleExploreCourse = (course) => {
-    if (typeof onExploreCourse === "function") {
-      onExploreCourse(course);
-      return;
-    }
+  /* =======================================================
+     EXPLORE COURSE
+     
+     Clicking "Explore Course" redirects to Course Catalog.
+  ======================================================= */
 
-    console.log("Explore course:", course);
+  const handleExploreCourse = (course) => {
+    navigate("/learner/courses");
   };
 
   const handleBookmark = (courseId) => {
@@ -529,9 +523,9 @@ const RecommendationList = ({ stats, onViewAllCourses, onExploreCourse }) => {
                 </div>
 
                 {/* =========================================
-                    PROFESSIONAL EXPLORE BUTTON
+                    EXPLORE COURSE BUTTON
 
-                    ALWAYS AT THE BOTTOM.
+                    REDIRECTS TO COURSE CATALOG.
                 ========================================= */}
 
                 <Button
