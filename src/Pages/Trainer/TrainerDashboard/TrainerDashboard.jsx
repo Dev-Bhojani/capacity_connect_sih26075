@@ -16,6 +16,14 @@ import CourseOverview from "../../../Components/Trainer/TrainerDashboard/CourseO
 
 import PerformanceOverview from "../../../Components/Trainer/TrainerDashboard/PerformanceOverview/PerformanceOverview";
 
+import AttendanceOverview from "../../../Components/Trainer/TrainerDashboard/AttendanceOverview/AttendanceOverview";
+
+import UpcomingSessions from "../../../Components/Trainer/TrainerDashboard/UpcomingSessions/UpcomingSessions";
+
+import PendingTasks from "../../../Components/Trainer/TrainerDashboard/PendingTasks/PendingTasks";
+
+import RecentActivity from "../../../Components/Trainer/TrainerDashboard/RecentActivity/RecentActivity";
+
 // =====================================================
 // TRAINER DASHBOARD
 // =====================================================
@@ -52,6 +60,30 @@ const TrainerDashboard = () => {
       ================================================= */}
 
       <PerformanceOverview />
+
+      {/* =================================================
+          ATTENDANCE OVERVIEW
+      ================================================= */}
+
+      <AttendanceOverview />
+
+      {/* =================================================
+          UPCOMING SESSIONS
+      ================================================= */}
+
+      <UpcomingSessions />
+
+      {/* =================================================
+          PENDING TASKS
+      ================================================= */}
+
+      <PendingTasks />
+
+      {/* =================================================
+          RECENT ACTIVITY
+      ================================================= */}
+
+      <RecentActivity />
     </div>
   );
 };

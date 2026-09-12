@@ -1,55 +1,78 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
+// ========================================
 // Trainer Layout
+// ========================================
 import TrainerLayout from "../Layouts/TrainerLayout/TrainerLayout";
-import TrainerDashboard from "../Pages/Trainer/TrainerDashboard/TrainerDashboard"
+
+// ========================================
+// Trainer Course Details
+// ========================================
+import CourseDetails from "../Pages/Trainer/CourseDetails/CourseDetails";
+
+// ========================================
+// Trainer Pages
+// ========================================
+import TrainerDashboard from "../Pages/Trainer/TrainerDashboard/TrainerDashboard";
+import TrainerLearners from "../Pages/Trainer/TrainerLearners/TrainerLearners";
+import TrainerCourses from "../Pages/Trainer/TrainerCourses/TrainerCourses";
+import TrainerQuizzes from "../Pages/Trainer/TrainerQuizzes/TrainerQuizzes";
+import QuizDetails from "../Pages/Trainer/QuizDetails/QuizDetails";
+import TrainerAttendance from "../Pages/Trainer/TrainerAttendance/TrainerAttendance";
+import TrainerPerformance from "../Pages/Trainer/TrainerPerformance/TrainerPerformance";
+import TrainerSchedule from "../Pages/Trainer/TrainerSchedule/TrainerSchedule";
+
 
 const TrainerRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<TrainerLayout />}>
-        {/* Trainer Dashboard */}
+        {/* ========================================
+            Trainer Dashboard
+        ======================================== */}
+
         <Route index element={<TrainerDashboard />} />
 
-        {/* Trainer Learners */}
-        <Route path="trainer-learners" element={<div>Trainer Learners</div>} />
+        {/* ========================================
+            Trainer Learners
+        ======================================== */}
 
-        {/* Trainer Courses */}
-        <Route path="trainer-courses" element={<div>Trainer Courses</div>} />
+        <Route path="trainer-learners" element={<TrainerLearners />} />
 
-        {/* Trainer Quizzes */}
-        <Route path="trainer-quizzes" element={<div>Trainer Quizzes</div>} />
+        {/* ========================================
+            Trainer Courses
+        ======================================== */}
 
-        {/* Trainer Assignments */}
-        <Route
-          path="trainer-assignments"
-          element={<div>Trainer Assignments</div>}
-        />
+        <Route path="trainer-courses" element={<TrainerCourses />} />
 
-        {/* Trainer Attendance */}
-        <Route
-          path="trainer-attendance"
-          element={<div>Trainer Attendance</div>}
-        />
+        <Route path="trainer-courses/:courseId" element={<CourseDetails />} />
 
-        {/* Trainer Performance */}
-        <Route
-          path="trainer-performance"
-          element={<div>Trainer Performance</div>}
-        />
+        {/* ========================================
+            Trainer Quizzes
+        ======================================== */}
 
-        {/* Trainer Schedule */}
-        <Route path="trainer-schedule" element={<div>Trainer Schedule</div>} />
+        <Route path="trainer-quizzes" element={<TrainerQuizzes />} />
 
-        {/* Trainer Notifications */}
-        <Route
-          path="trainer-notifications"
-          element={<div>Trainer Notifications</div>}
-        />
+        <Route path="trainer-quizzes/:quizId" element={<QuizDetails />} />
 
-        {/* Trainer Profile */}
-        <Route path="trainer-profile" element={<div>Trainer Profile</div>} />
+        {/* ========================================
+            Trainer Attendance
+        ======================================== */}
+
+        <Route path="trainer-attendance" element={<TrainerAttendance />} />
+
+        {/* ========================================
+            Trainer Performance
+        ======================================== */}
+
+        <Route path="trainer-performance" element={<TrainerPerformance />} />
+
+        {/* ========================================
+            Trainer Schedule
+        ======================================== */}
+
+        <Route path="trainer-schedule" element={<TrainerSchedule />} />
       </Route>
     </Routes>
   );
