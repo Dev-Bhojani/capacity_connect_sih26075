@@ -31,6 +31,7 @@ import knowledgeImage from "../../assets/Images/platform-feature3.jpg";
 import progressImage from "../../assets/Images/platform-feature4.webp";
 import collaborationImage from "../../assets/Images/platform-feature5.jpg";
 import competenciesImage from "../../assets/Images/platform-feature6.jpeg";
+import logo from "../../assets/Images/Final_logo_IMD.png";
 
 import "./Landing.css";
 
@@ -354,9 +355,11 @@ const Landing = () => {
               aria-label="Capacity Connect"
             >
               <span className="landing__brand-logo">
-                <span className="landing__brand-wave landing__brand-wave--1" />
-                <span className="landing__brand-wave landing__brand-wave--2" />
-                <span className="landing__brand-wave landing__brand-wave--3" />
+                <img
+                  src={logo}
+                  alt="Capacity Connect"
+                  className="landing__brand-logo-image"
+                />
               </span>
 
               <span className="landing__brand-text">

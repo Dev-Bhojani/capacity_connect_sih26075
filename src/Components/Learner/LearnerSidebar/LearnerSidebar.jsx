@@ -16,6 +16,7 @@ import {
 } from "react-icons/fi";
 
 import "./LearnerSidebar.css";
+import logo from "../../../assets/Images/Final_logo_IMD.png";
 
 /* =========================================================
    MAIN NAVIGATION
@@ -148,7 +149,11 @@ const LearnerSidebar = () => {
 
       <div className="sidebar-brand">
         <div className="sidebar-logo">
-          <span>CC</span>
+          <img
+            src={logo}
+            alt="Capacity Connect"
+            className="sidebar-logo-image"
+          />
         </div>
 
         <div className="sidebar-brand-text">

@@ -25,6 +25,7 @@ import {
 } from "react-icons/fi";
 
 import "./ContactUs.css";
+import logo from "../../assets/Images/Final_logo_IMD.png";
 
 const ContactUs = () => {
   const navigate = useNavigate();
@@ -258,9 +259,11 @@ const ContactUs = () => {
             aria-label="Capacity Connect home"
           >
             <span className="contact-brand__logo">
-              <span className="contact-brand__wave contact-brand__wave--1" />
-              <span className="contact-brand__wave contact-brand__wave--2" />
-              <span className="contact-brand__wave contact-brand__wave--3" />
+              <img
+                src={logo}
+                alt="Capacity Connect"
+                className="contact-brand__logo-image"
+              />
             </span>
 
             <span className="contact-brand__text">
@@ -990,9 +993,11 @@ const ContactUs = () => {
               onClick={handleHome}
             >
               <span className="contact-brand__logo">
-                <span className="contact-brand__wave contact-brand__wave--1" />
-                <span className="contact-brand__wave contact-brand__wave--2" />
-                <span className="contact-brand__wave contact-brand__wave--3" />
+                <img
+                  src={logo}
+                  alt="Capacity Connect"
+                  className="contact-brand__logo-image"
+                />
               </span>
 
               <span className="contact-brand__text">

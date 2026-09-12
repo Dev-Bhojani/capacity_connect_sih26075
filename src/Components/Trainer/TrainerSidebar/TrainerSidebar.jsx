@@ -15,6 +15,7 @@ import {
 } from "react-icons/lu";
 
 import "./TrainerSidebar.css";
+import logo from "../../../assets/Images/Final_logo_IMD.png";
 
 const TrainerSidebar = () => {
   const navigationItems = [
@@ -73,7 +74,11 @@ const TrainerSidebar = () => {
       <div className="trainer-sidebar-brand">
         <NavLink to="/trainer" className="trainer-brand-link">
           <div className="trainer-brand-logo">
-            <span>C</span>
+            <img
+              src={logo}
+              alt="Capacity Connect"
+              className="trainer-brand-logo-image"
+            />
           </div>
 
           <div className="trainer-brand-content">
