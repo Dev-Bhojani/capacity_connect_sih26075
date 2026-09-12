@@ -31,6 +31,18 @@ import Certificates from "../Pages/Learner/Certificates/Certificates";
 import Knowledge from "../Pages/Learner/Knowledge/Knowledge";
 
 /* =========================================================
+   PROFILE PAGE
+========================================================= */
+
+import Profile from "../Pages/Learner/Profile/Profile";
+
+/* =========================================================
+   SETTINGS PAGE
+========================================================= */
+
+import Settings from "../Pages/Learner/Settings/Settings";
+
+/* =========================================================
    QUIZ PAGES
 ========================================================= */
 
@@ -214,17 +226,18 @@ const LearnerRoutes = () => {
 
         {/* =================================================
             PROFILE
-            Placeholder for now
+            Real Page
         ================================================== */}
 
-        <Route path="profile" element={<PlaceholderPage title="Profile" />} />
+        <Route path="profile" element={<Profile />} />
 
         {/* =================================================
             SETTINGS
-            Placeholder for now
+            Real Page
+            Currently contains SettingsHeader only
         ================================================== */}
 
-        <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>
   );

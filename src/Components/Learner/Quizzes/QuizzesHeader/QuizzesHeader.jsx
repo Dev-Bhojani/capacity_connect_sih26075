@@ -30,7 +30,7 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
       label: "Total Quizzes",
       description: "Across all courses",
       icon: FileQuestion,
-      className: "quiz-header-stat--blue",
+      theme: "blue",
     },
     {
       id: "questions",
@@ -38,7 +38,7 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
       label: "Total Questions",
       description: "In all quizzes",
       icon: Brain,
-      className: "quiz-header-stat--purple",
+      theme: "purple",
     },
     {
       id: "passing",
@@ -46,7 +46,7 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
       label: "Average Pass Score",
       description: "Minimum to pass",
       icon: Trophy,
-      className: "quiz-header-stat--mint",
+      theme: "mint",
     },
     {
       id: "categories",
@@ -54,7 +54,7 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
       label: "Categories",
       description: "Different subjects",
       icon: BarChart3,
-      className: "quiz-header-stat--amber",
+      theme: "amber",
     },
   ];
 
@@ -69,18 +69,27 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
 
   return (
     <section className="quizzes-header">
-      {/* Decorative background elements */}
+      {/* =====================================================
+          BACKGROUND DECORATION
+      ====================================================== */}
+
       <div className="quizzes-header__glow quizzes-header__glow--one" />
       <div className="quizzes-header__glow quizzes-header__glow--two" />
 
       <div className="quizzes-header__wave quizzes-header__wave--one" />
       <div className="quizzes-header__wave quizzes-header__wave--two" />
 
+      {/* =====================================================
+          MAIN HERO
+      ====================================================== */}
+
       <div className="quizzes-header__content">
-        {/* -------------------------------------------------
-            LEFT CONTENT
-        -------------------------------------------------- */}
+        {/* ===================================================
+            LEFT SIDE
+        ==================================================== */}
+
         <div className="quizzes-header__left">
+          {/* Eyebrow */}
           <div className="quizzes-header__eyebrow">
             <span className="quizzes-header__eyebrow-icon">
               <GraduationCap size={18} strokeWidth={2.4} />
@@ -89,6 +98,7 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
             <span>Quiz Center</span>
           </div>
 
+          {/* Main heading */}
           <div className="quizzes-header__heading">
             <h1>
               Challenge Yourself.
@@ -96,11 +106,13 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
             </h1>
           </div>
 
+          {/* Description */}
           <p className="quizzes-header__description">
             Test your knowledge, strengthen your skills, and track your progress
             through course assessments.
           </p>
 
+          {/* Small supporting message */}
           <div className="quizzes-header__progress-note">
             <span className="quizzes-header__progress-note-icon">
               <Zap size={17} strokeWidth={2.5} />
@@ -113,20 +125,21 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
             <span>Big Progress!</span>
           </div>
 
-          {/* -------------------------------------------------
+          {/* =================================================
               STATISTICS
-          -------------------------------------------------- */}
+          ================================================== */}
+
           <div className="quizzes-header__stats">
             {statCards.map((stat) => {
               const Icon = stat.icon;
 
               return (
                 <article
-                  className={`quiz-header-stat ${stat.className}`}
                   key={stat.id}
+                  className={`quiz-header-stat quiz-header-stat--${stat.theme}`}
                 >
                   <div className="quiz-header-stat__icon">
-                    <Icon size={24} strokeWidth={2.2} />
+                    <Icon size={22} strokeWidth={2.2} />
                   </div>
 
                   <div className="quiz-header-stat__value">{stat.value}</div>
@@ -142,19 +155,23 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
           </div>
         </div>
 
-        {/* -------------------------------------------------
-            RIGHT DARK PANEL
-        -------------------------------------------------- */}
-        <div className="quizzes-header__feature">
+        {/* ===================================================
+            RIGHT FEATURE CARD
+        ==================================================== */}
+
+        <aside className="quizzes-header__feature">
+          {/* Decorative orbits */}
           <div className="quizzes-header__feature-orbit quizzes-header__feature-orbit--one" />
           <div className="quizzes-header__feature-orbit quizzes-header__feature-orbit--two" />
 
+          {/* Stars */}
           <div className="quizzes-header__feature-stars">
             <span className="quiz-star quiz-star--one">✦</span>
             <span className="quiz-star quiz-star--two">✦</span>
             <span className="quiz-star quiz-star--three">✦</span>
           </div>
 
+          {/* Top label */}
           <div className="quizzes-header__feature-topline">
             <span>LEARN</span>
             <span>•</span>
@@ -163,6 +180,7 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
             <span>GROW</span>
           </div>
 
+          {/* Feature content */}
           <div className="quizzes-header__feature-content">
             <h2>
               Turn Knowledge
@@ -182,15 +200,18 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
               <span>Start a Quiz</span>
 
               <span className="quizzes-header__start-icon">
-                <ChevronRight size={20} strokeWidth={2.6} />
+                <ChevronRight size={19} strokeWidth={2.7} />
               </span>
             </button>
           </div>
 
-          {/* Quiz illustration */}
+          {/* =================================================
+              ILLUSTRATION
+          ================================================== */}
+
           <div className="quizzes-header__illustration">
             <div className="quizzes-header__bulb">
-              <Lightbulb size={34} strokeWidth={1.9} />
+              <Lightbulb size={30} strokeWidth={1.9} />
             </div>
 
             <div className="quizzes-header__books">
@@ -227,47 +248,50 @@ const QuizzesHeader = ({ stats, onStartQuiz }) => {
             </div>
           </div>
 
-          {/* Bottom feature strip */}
+          {/* =================================================
+              FEATURE FOOTER
+          ================================================== */}
+
           <div className="quizzes-header__feature-footer">
             <div className="quizzes-header__feature-item">
               <span className="quizzes-header__feature-item-icon quizzes-header__feature-item-icon--yellow">
-                <Zap size={18} strokeWidth={2.5} />
+                <Zap size={17} strokeWidth={2.5} />
               </span>
 
               <span>Build Skills</span>
             </div>
 
-            <div className="quizzes-header__feature-divider" />
-
             <div className="quizzes-header__feature-item">
               <span className="quizzes-header__feature-item-icon quizzes-header__feature-item-icon--pink">
-                <Target size={18} strokeWidth={2.4} />
+                <Target size={17} strokeWidth={2.4} />
               </span>
 
               <span>Track Progress</span>
             </div>
 
-            <div className="quizzes-header__feature-divider" />
-
             <div className="quizzes-header__feature-item">
               <span className="quizzes-header__feature-item-icon quizzes-header__feature-item-icon--cyan">
-                <Award size={18} strokeWidth={2.3} />
+                <Award size={17} strokeWidth={2.3} />
               </span>
 
               <span>Achieve Goals</span>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
 
-      {/* Bottom supporting statement */}
+      {/* =====================================================
+          SUPPORTING STATEMENT
+      ====================================================== */}
+
       <div className="quizzes-header__statement">
         <div className="quizzes-header__statement-icon">
           <BookOpen size={20} strokeWidth={2.2} />
         </div>
 
-        <div>
+        <div className="quizzes-header__statement-content">
           <strong>Learn. Test. Improve.</strong>
+
           <span>
             Every attempt is an opportunity to understand what you know and
             discover what comes next.

@@ -21,7 +21,6 @@ import TrainerRoutes from "./routes/TrainerRoutes";
 // ================================
 // ADMIN ROUTES
 // ================================
-import AdminRoutes from "./routes/AdminRoutes";
 
 function App() {
   return (
@@ -72,7 +71,6 @@ function App() {
             ADMIN APPLICATION
         ======================================== */}
 
-        <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
     </BrowserRouter>
   );

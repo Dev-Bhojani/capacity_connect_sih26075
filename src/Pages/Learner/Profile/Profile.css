@@ -1,0 +1,113 @@
+/* =========================================================
+   CAPACITY CONNECT
+   LEARNER PROFILE PAGE
+
+   NOTE:
+   LearnerSidebar and LearnerTopbar are already handled by
+   LearnerLayout. This stylesheet only controls the Profile
+   page content inside .learner-page-content.
+========================================================= */
+
+.learner-profile {
+  width: 100%;
+  max-width: 100%;
+
+  min-width: 0;
+  min-height: 100%;
+
+  box-sizing: border-box;
+
+  /* ---------------------------------------------------------
+     Page background
+  --------------------------------------------------------- */
+
+  background:
+    radial-gradient(
+      circle at 82% 4%,
+      rgba(220, 237, 250, 0.58) 0%,
+      rgba(220, 237, 250, 0) 27%
+    ),
+    radial-gradient(
+      circle at 20% 78%,
+      rgba(225, 243, 237, 0.38) 0%,
+      rgba(225, 243, 237, 0) 25%
+    ),
+    #f4f8fb;
+
+  border-radius: 2px;
+
+  overflow: visible;
+}
+
+/* =========================================================
+   PROFILE HEADER CONTAINER
+========================================================= */
+
+.learner-profile > .profile-header {
+  width: 100%;
+  max-width: 100%;
+
+  min-width: 0;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   RESPONSIVE — DESKTOP
+========================================================= */
+
+@media (min-width: 1440px) {
+  .learner-profile {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — LAPTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+  .learner-profile {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+  .learner-profile {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+  .learner-profile {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .learner-profile {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+  .learner-profile {
+    width: 100%;
+  }
+}
