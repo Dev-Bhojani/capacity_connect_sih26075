@@ -40,6 +40,7 @@ const Landing = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [activeSearch, setActiveSearch] = useState("");
 
   const howItWorksJourneyRef = useRef(null);
   const howItWorksCardRefs = useRef([]);
@@ -195,7 +196,9 @@ const Landing = () => {
 
     if (!value) return;
 
-    console.log("Capacity Connect search:", value);
+    setActiveSearch(value);
+
+    scrollToSection("features");
   };
 
   const handlePopularSearch = (value) => {

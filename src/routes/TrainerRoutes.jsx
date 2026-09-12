@@ -7,6 +7,11 @@ import { Routes, Route } from "react-router-dom";
 import TrainerLayout from "../Layouts/TrainerLayout/TrainerLayout";
 
 // ========================================
+// Trainer Error Page
+// ========================================
+import NotFound from "../Pages/Errors/NotFound/NotFound";
+
+// ========================================
 // Trainer Course Details
 // ========================================
 import CourseDetails from "../Pages/Trainer/CourseDetails/CourseDetails";
@@ -79,6 +84,13 @@ const TrainerRoutes = () => {
         ======================================== */}
 
         <Route path="trainer-profile" element={<TrainerProfile />} />
+
+        {/* ========================================
+            Trainer 404
+            Must be LAST
+        ======================================== */}
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

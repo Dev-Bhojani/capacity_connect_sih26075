@@ -53,6 +53,12 @@ import QuizAttempt from "../Pages/Learner/QuizAttempt/QuizAttempt";
 import QuizResult from "../Pages/Learner/QuizResult/QuizResult";
 
 /* =========================================================
+   ERROR PAGE
+========================================================= */
+
+import NotFound from "../Pages/Errors/NotFound/NotFound";
+
+/* =========================================================
    PLACEHOLDER PAGE
 ========================================================= */
 
@@ -234,10 +240,16 @@ const LearnerRoutes = () => {
         {/* =================================================
             SETTINGS
             Real Page
-            Currently contains SettingsHeader only
         ================================================== */}
 
         <Route path="settings" element={<Settings />} />
+
+        {/* =================================================
+            LEARNER 404
+            Must be LAST
+        ================================================== */}
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
