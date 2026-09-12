@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 
-// Zero-dependency SVG Icons for complete reusability across any React project
+// ============================================================
+// ICONS
+// ============================================================
 const Icons = {
   Logo: () => (
     <svg
@@ -26,6 +27,7 @@ const Icons = {
       />
     </svg>
   ),
+
   User: () => (
     <svg
       width="18"
@@ -41,6 +43,7 @@ const Icons = {
       <circle cx="12" cy="7" r="4" />
     </svg>
   ),
+
   Mail: () => (
     <svg
       width="18"
@@ -56,6 +59,7 @@ const Icons = {
       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
     </svg>
   ),
+
   Phone: () => (
     <svg
       width="18"
@@ -70,6 +74,7 @@ const Icons = {
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
   ),
+
   Lock: () => (
     <svg
       width="18"
@@ -85,6 +90,91 @@ const Icons = {
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
   ),
+
+  Briefcase: () => (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="14" x="2" y="7" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M2 12h20" />
+      <path d="M10 12v2h4v-2" />
+    </svg>
+  ),
+
+  GraduationCap: () => (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+      <path d="M6 12v5c3 2 9 2 12 0v-5" />
+      <path d="M22 10v6" />
+    </svg>
+  ),
+
+  Presentation: () => (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="14" rx="2" />
+      <path d="M8 21h8" />
+      <path d="M12 17v4" />
+      <path d="m8 11 2.5-2.5L13 11l3-3" />
+    </svg>
+  ),
+
+  Shield: () => (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 3 20 7v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  ),
+
+  ChevronDown: () => (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  ),
+
   Eye: () => (
     <svg
       width="18"
@@ -100,6 +190,7 @@ const Icons = {
       <circle cx="12" cy="12" r="3" />
     </svg>
   ),
+
   EyeOff: () => (
     <svg
       width="18"
@@ -117,6 +208,7 @@ const Icons = {
       <line x1="2" y1="2" x2="22" y2="22" />
     </svg>
   ),
+
   Check: () => (
     <svg
       width="12"
@@ -131,6 +223,7 @@ const Icons = {
       <polyline points="20 6 9 17 4 12" />
     </svg>
   ),
+
   Google: () => (
     <svg width="18" height="18" viewBox="0 0 24 24">
       <path
@@ -151,11 +244,13 @@ const Icons = {
       />
     </svg>
   ),
+
   Apple: () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8 0.93-2.85-.9.04-1.98.6-2.61 1.34-.56.64-1.05 1.69-.92 2.71 1 .08 2.02-.45 2.6-1.2" />
+      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.38c.62-.75 1.04-1.8.93-2.85-.9.04-1.98.6-2.61 1.34-.56.64-1.05 1.69-.92 2.71 1 .08 2.02-.45 2.6-1.2" />
     </svg>
   ),
+
   Calendar: () => (
     <svg
       width="14"
@@ -173,6 +268,7 @@ const Icons = {
       <line x1="3" y1="10" x2="21" y2="10" />
     </svg>
   ),
+
   Clock: () => (
     <svg
       width="14"
@@ -188,6 +284,7 @@ const Icons = {
       <polyline points="12 6 12 12 16 14" />
     </svg>
   ),
+
   TrendingUp: () => (
     <svg
       width="14"
@@ -203,6 +300,7 @@ const Icons = {
       <polyline points="16 7 22 7 22 13" />
     </svg>
   ),
+
   Users: () => (
     <svg
       width="14"
@@ -222,6 +320,9 @@ const Icons = {
   ),
 };
 
+// ============================================================
+// REGISTER COMPONENT
+// ============================================================
 export default function Register({
   onNavigateToLogin,
   onRegisterSuccess,
@@ -231,6 +332,7 @@ export default function Register({
     fullName: "",
     email: "",
     phone: "",
+    profession: "",
     password: "",
     confirmPassword: "",
     terms: false,
@@ -241,14 +343,46 @@ export default function Register({
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isProfessionOpen, setIsProfessionOpen] = useState(false);
+
+  const professionRef = useRef(null);
 
   const navigate = useNavigate();
 
-  // Email format validation helper
+  // ============================================================
+  // PROFESSION OPTIONS
+  // ============================================================
+  const professionOptions = [
+    {
+      value: "learner",
+      label: "Learner",
+      description: "Access courses and learning resources",
+      Icon: Icons.GraduationCap,
+    },
+    {
+      value: "trainer",
+      label: "Trainer",
+      description: "Create and manage training programs",
+      Icon: Icons.Presentation,
+    },
+    {
+      value: "admin",
+      label: "Admin",
+      description: "Manage users, content and platform",
+      Icon: Icons.Shield,
+    },
+  ];
+
+  // ============================================================
+  // EMAIL VALIDATION
+  // ============================================================
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
+  // ============================================================
+  // BODY SCROLL LOCK
+  // ============================================================
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -257,14 +391,74 @@ export default function Register({
     };
   }, []);
 
-  // Phone validation helper (accepts digits, international prefix, separators)
+  // ============================================================
+  // CLOSE PROFESSION DROPDOWN ON OUTSIDE CLICK / ESCAPE
+  // ============================================================
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        professionRef.current &&
+        !professionRef.current.contains(event.target)
+      ) {
+        setIsProfessionOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setIsProfessionOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
+  // ============================================================
+  // PROFESSION SELECTION
+  // ============================================================
+  const handleProfessionSelect = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      profession: value,
+    }));
+
+    if (errors.profession) {
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated.profession;
+        return updated;
+      });
+    }
+
+    setIsProfessionOpen(false);
+  };
+
+  const selectedProfession = professionOptions.find(
+    (option) => option.value === formData.profession,
+  );
+
+  const SelectedProfessionIcon = selectedProfession?.Icon || Icons.Briefcase;
+
+  // ============================================================
+  // PHONE VALIDATION
+  // ============================================================
   const isValidPhone = (phone) => {
     const digits = phone.replace(/[^0-9]/g, "");
     return digits.length >= 8 && digits.length <= 15;
   };
 
+  // ============================================================
+  // HANDLE INPUT CHANGE
+  // ============================================================
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     const fieldValue = type === "checkbox" ? checked : value;
 
     setFormData((prev) => ({
@@ -272,7 +466,6 @@ export default function Register({
       [name]: fieldValue,
     }));
 
-    // Clear specific field error as user types
     if (errors[name]) {
       setErrors((prev) => {
         const updated = { ...prev };
@@ -282,6 +475,9 @@ export default function Register({
     }
   };
 
+  // ============================================================
+  // FORM VALIDATION
+  // ============================================================
   const validate = () => {
     const newErrors = {};
 
@@ -303,6 +499,10 @@ export default function Register({
       newErrors.phone = "Please enter a valid phone number (min. 8 digits)";
     }
 
+    if (!formData.profession) {
+      newErrors.profession = "Please select your profession";
+    }
+
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
@@ -322,8 +522,12 @@ export default function Register({
     return newErrors;
   };
 
+  // ============================================================
+  // HANDLE FORM SUBMIT
+  // ============================================================
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
@@ -334,27 +538,67 @@ export default function Register({
     setErrors({});
     setIsSubmitting(true);
 
-    // Simulate registration API call
+    // ----------------------------------------------------------
+    // TEMPORARY FRONTEND REGISTRATION SIMULATION
+    // ----------------------------------------------------------
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitSuccess(true);
+
+      // Send registration data to parent if provided
       if (onRegisterSuccess) {
         onRegisterSuccess(formData);
+      }
+
+      // --------------------------------------------------------
+      // ROLE-BASED NAVIGATION
+      // --------------------------------------------------------
+      switch (formData.profession) {
+        case "learner":
+          navigate("/learner");
+          break;
+
+        case "trainer":
+          navigate("/trainer");
+          break;
+
+        case "admin":
+          navigate("/admin");
+          break;
+
+        default:
+          break;
       }
     }, 600);
   };
 
+  // ============================================================
+  // SOCIAL LOGIN
+  // ============================================================
   const handleSocialClick = (provider) => {
     window.alert(`Connect with ${provider} is ready for integration.`);
   };
 
+  // ============================================================
+  // HERO IMAGE
+  // ============================================================
   const heroImage =
     imageSrc ||
     "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80";
 
+  // ============================================================
+  // JSX
+  // ============================================================
   return (
     <div className="cc-reg-page-wrapper">
+      {/* ======================================================
+          BACKDROP
+      ====================================================== */}
       <div className="cc-reg-backdrop" aria-hidden="true" />
+
+      {/* ======================================================
+          BACK TO CAPACITY CONNECT
+      ====================================================== */}
       <button
         type="button"
         className="cc-reg-back-link"
@@ -364,27 +608,42 @@ export default function Register({
         <span aria-hidden="true">←</span>
         <span>Back to Capacity Connect</span>
       </button>
+
+      {/* ======================================================
+          MAIN AUTH CONTAINER
+      ====================================================== */}
       <div className="cc-reg-auth-container">
-        {/* Left Side: Authentication Form */}
+        {/* ====================================================
+            LEFT SIDE — FORM
+        ==================================================== */}
         <div className="cc-reg-form-pane">
-          {/* Capacity Connect Branding */}
+          {/* ==================================================
+              BRANDING
+          ================================================== */}
           <div className="cc-reg-brand">
             <Icons.Logo />
+
             <div className="cc-reg-brand-text">
               <span className="cc-reg-brand-name">Capacity</span>
+
               <span className="cc-reg-brand-highlight">Connect</span>
             </div>
           </div>
 
-          {/* Heading & Subtitle */}
+          {/* ==================================================
+              HEADER
+          ================================================== */}
           <div className="cc-reg-header-block">
             <h1 className="cc-reg-heading">Create your account</h1>
+
             <p className="cc-reg-subtitle">
               Connect, collaborate and grow with Capacity Connect.
             </p>
           </div>
 
-          {/* Social Sign-In Buttons */}
+          {/* ==================================================
+              SOCIAL SIGN-IN
+          ================================================== */}
           <div className="cc-reg-social-group">
             <button
               type="button"
@@ -395,6 +654,7 @@ export default function Register({
               <Icons.Google />
               <span>Google</span>
             </button>
+
             <button
               type="button"
               className="cc-reg-social-btn"
@@ -406,34 +666,45 @@ export default function Register({
             </button>
           </div>
 
-          {/* Divider */}
+          {/* ==================================================
+              DIVIDER
+          ================================================== */}
           <div className="cc-reg-divider">
             <span className="cc-reg-divider-line" />
             <span className="cc-reg-divider-text">or register with email</span>
             <span className="cc-reg-divider-line" />
           </div>
 
-          {/* Submission Success Alert */}
+          {/* ==================================================
+              SUCCESS MESSAGE
+          ================================================== */}
           {submitSuccess && (
             <div className="cc-reg-success-banner">
               <span className="cc-reg-success-icon">✓</span>
+
               <span>
                 Account created successfully! Welcome to Capacity Connect.
               </span>
             </div>
           )}
 
-          {/* Registration Form */}
+          {/* ==================================================
+              REGISTRATION FORM
+          ================================================== */}
           <form className="cc-reg-form" onSubmit={handleSubmit} noValidate>
-            {/* Full Name Input */}
+            {/* =================================================
+                FULL NAME
+            ================================================= */}
             <div className="cc-reg-field-group">
               <label className="cc-reg-label" htmlFor="reg-fullName">
                 Full Name
               </label>
+
               <div className="cc-reg-input-wrapper">
                 <span className="cc-reg-input-icon">
                   <Icons.User />
                 </span>
+
                 <input
                   id="reg-fullName"
                   name="fullName"
@@ -441,23 +712,30 @@ export default function Register({
                   placeholder="e.g. Maya Lin"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className={`cc-reg-input ${errors.fullName ? "has-error" : ""}`}
+                  className={`cc-reg-input ${
+                    errors.fullName ? "has-error" : ""
+                  }`}
                 />
               </div>
+
               {errors.fullName && (
                 <span className="cc-reg-error-text">{errors.fullName}</span>
               )}
             </div>
 
-            {/* Email Input */}
+            {/* =================================================
+                EMAIL
+            ================================================= */}
             <div className="cc-reg-field-group">
               <label className="cc-reg-label" htmlFor="reg-email">
                 Email Address
               </label>
+
               <div className="cc-reg-input-wrapper">
                 <span className="cc-reg-input-icon">
                   <Icons.Mail />
                 </span>
+
                 <input
                   id="reg-email"
                   name="email"
@@ -468,20 +746,25 @@ export default function Register({
                   className={`cc-reg-input ${errors.email ? "has-error" : ""}`}
                 />
               </div>
+
               {errors.email && (
                 <span className="cc-reg-error-text">{errors.email}</span>
               )}
             </div>
 
-            {/* Phone Number Input */}
+            {/* =================================================
+                PHONE
+            ================================================= */}
             <div className="cc-reg-field-group">
               <label className="cc-reg-label" htmlFor="reg-phone">
                 Phone Number
               </label>
+
               <div className="cc-reg-input-wrapper">
                 <span className="cc-reg-input-icon">
                   <Icons.Phone />
                 </span>
+
                 <input
                   id="reg-phone"
                   name="phone"
@@ -492,20 +775,155 @@ export default function Register({
                   className={`cc-reg-input ${errors.phone ? "has-error" : ""}`}
                 />
               </div>
+
               {errors.phone && (
                 <span className="cc-reg-error-text">{errors.phone}</span>
               )}
             </div>
 
-            {/* Password Input */}
+            {/* =================================================
+                PROFESSION DROPDOWN
+            ================================================= */}
+            <div className="cc-reg-field-group">
+              <label className="cc-reg-label" htmlFor="reg-profession">
+                Profession
+              </label>
+
+              <div
+                ref={professionRef}
+                className={`cc-reg-select-wrapper ${
+                  errors.profession ? "has-error" : ""
+                }`}
+              >
+                {/* =================================================
+                    DROPDOWN TRIGGER
+                ================================================= */}
+                <button
+                  type="button"
+                  id="reg-profession"
+                  className={`cc-reg-select-trigger ${
+                    isProfessionOpen ? "open" : ""
+                  }`}
+                  onClick={() => setIsProfessionOpen((prev) => !prev)}
+                  aria-haspopup="listbox"
+                  aria-expanded={isProfessionOpen}
+                  aria-invalid={Boolean(errors.profession)}
+                >
+                  <span className="cc-reg-input-icon" aria-hidden="true">
+                    <SelectedProfessionIcon />
+                  </span>
+
+                  <span
+                    className={`cc-reg-select-value ${
+                      !selectedProfession ? "placeholder" : ""
+                    }`}
+                  >
+                    {selectedProfession
+                      ? selectedProfession.label
+                      : "Select your profession"}
+                  </span>
+
+                  <span className="cc-reg-select-chevron" aria-hidden="true">
+                    <Icons.ChevronDown />
+                  </span>
+                </button>
+
+                {/* =================================================
+                    DROPDOWN MENU
+                ================================================= */}
+                {isProfessionOpen && (
+                  <div
+                    className="cc-reg-select-menu"
+                    role="listbox"
+                    aria-label="Profession options"
+                  >
+                    {/* MENU HEADER */}
+                    <div className="cc-reg-select-menu-header">
+                      <span className="cc-reg-select-menu-title">
+                        Choose your role
+                      </span>
+
+                      <span className="cc-reg-select-menu-hint">
+                        Select one
+                      </span>
+                    </div>
+
+                    {/* OPTIONS */}
+                    {professionOptions.map((option, index) => {
+                      const OptionIcon = option.Icon;
+
+                      const isSelected = formData.profession === option.value;
+
+                      return (
+                        <React.Fragment key={option.value}>
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={isSelected}
+                            className={`cc-reg-select-option ${
+                              isSelected ? "selected" : ""
+                            }`}
+                            onClick={() => handleProfessionSelect(option.value)}
+                          >
+                            {/* ROLE ICON */}
+                            <span className="cc-reg-role-icon">
+                              <OptionIcon />
+                            </span>
+
+                            {/* ROLE CONTENT */}
+                            <span className="cc-reg-role-content">
+                              <span className="cc-reg-role-name">
+                                {option.label}
+                              </span>
+
+                              <span className="cc-reg-role-description">
+                                {option.description}
+                              </span>
+                            </span>
+
+                            {/* SELECTED / ARROW */}
+                            {isSelected ? (
+                              <span className="cc-reg-role-check">
+                                <Icons.Check />
+                              </span>
+                            ) : (
+                              <span
+                                className="cc-reg-role-arrow"
+                                aria-hidden="true"
+                              >
+                                <span>›</span>
+                              </span>
+                            )}
+                          </button>
+
+                          {index < professionOptions.length - 1 && (
+                            <div className="cc-reg-option-divider" />
+                          )}
+                        </React.Fragment>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {errors.profession && (
+                <span className="cc-reg-error-text">{errors.profession}</span>
+              )}
+            </div>
+
+            {/* =================================================
+                PASSWORD
+            ================================================= */}
             <div className="cc-reg-field-group">
               <label className="cc-reg-label" htmlFor="reg-password">
                 Password
               </label>
+
               <div className="cc-reg-input-wrapper">
                 <span className="cc-reg-input-icon">
                   <Icons.Lock />
                 </span>
+
                 <input
                   id="reg-password"
                   name="password"
@@ -513,8 +931,11 @@ export default function Register({
                   placeholder="Minimum 8 characters"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`cc-reg-input ${errors.password ? "has-error" : ""}`}
+                  className={`cc-reg-input ${
+                    errors.password ? "has-error" : ""
+                  }`}
                 />
+
                 <button
                   type="button"
                   className="cc-reg-eye-btn"
@@ -524,20 +945,25 @@ export default function Register({
                   {showPassword ? <Icons.EyeOff /> : <Icons.Eye />}
                 </button>
               </div>
+
               {errors.password && (
                 <span className="cc-reg-error-text">{errors.password}</span>
               )}
             </div>
 
-            {/* Confirm Password Input */}
+            {/* =================================================
+                CONFIRM PASSWORD
+            ================================================= */}
             <div className="cc-reg-field-group">
               <label className="cc-reg-label" htmlFor="reg-confirmPassword">
                 Confirm Password
               </label>
+
               <div className="cc-reg-input-wrapper">
                 <span className="cc-reg-input-icon">
                   <Icons.Lock />
                 </span>
+
                 <input
                   id="reg-confirmPassword"
                   name="confirmPassword"
@@ -545,8 +971,11 @@ export default function Register({
                   placeholder="Re-enter your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`cc-reg-input ${errors.confirmPassword ? "has-error" : ""}`}
+                  className={`cc-reg-input ${
+                    errors.confirmPassword ? "has-error" : ""
+                  }`}
                 />
+
                 <button
                   type="button"
                   className="cc-reg-eye-btn"
@@ -560,6 +989,7 @@ export default function Register({
                   {showConfirmPassword ? <Icons.EyeOff /> : <Icons.Eye />}
                 </button>
               </div>
+
               {errors.confirmPassword && (
                 <span className="cc-reg-error-text">
                   {errors.confirmPassword}
@@ -567,7 +997,9 @@ export default function Register({
               )}
             </div>
 
-            {/* Terms & Conditions Checkbox */}
+            {/* =================================================
+                TERMS & CONDITIONS
+            ================================================= */}
             <div className="cc-reg-terms-group">
               <label className="cc-reg-checkbox-label">
                 <input
@@ -577,6 +1009,7 @@ export default function Register({
                   onChange={handleChange}
                   className="cc-reg-checkbox-hidden"
                 />
+
                 <span
                   className={`cc-reg-custom-checkbox ${
                     formData.terms ? "checked" : ""
@@ -584,6 +1017,7 @@ export default function Register({
                 >
                   {formData.terms && <Icons.Check />}
                 </span>
+
                 <span className="cc-reg-terms-text">
                   I agree to the{" "}
                   <span className="cc-reg-terms-highlight">
@@ -593,12 +1027,15 @@ export default function Register({
                   <span className="cc-reg-terms-highlight">Privacy Policy</span>
                 </span>
               </label>
+
               {errors.terms && (
                 <span className="cc-reg-error-text">{errors.terms}</span>
               )}
             </div>
 
-            {/* Submit Button */}
+            {/* =================================================
+                CREATE ACCOUNT BUTTON
+            ================================================= */}
             <button
               type="submit"
               className="cc-reg-submit-btn"
@@ -608,7 +1045,9 @@ export default function Register({
             </button>
           </form>
 
-          {/* Switch to Login Text */}
+          {/* ==================================================
+              LOGIN LINK
+          ================================================== */}
           <p className="cc-reg-auth-switch">
             Already have an account?{" "}
             <a
@@ -626,7 +1065,9 @@ export default function Register({
           </p>
         </div>
 
-        {/* Right Side: Professional Teamwork Visual with Floating UI Cards */}
+        {/* ====================================================
+            RIGHT SIDE — VISUAL
+        ==================================================== */}
         <div className="cc-reg-visual-pane">
           <img
             src={heroImage}
@@ -637,44 +1078,61 @@ export default function Register({
                 "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=80";
             }}
           />
+
           <div className="cc-reg-hero-overlay" />
 
-          {/* Live Status Pill */}
+          {/* ==================================================
+              LIVE STATUS
+          ================================================== */}
           <div className="cc-reg-live-pill">
             <span className="cc-reg-pulse-dot" />
             <span>Capacity Hub • Live</span>
           </div>
 
-          {/* Floating UI Cards */}
+          {/* ==================================================
+              FLOATING CARDS
+          ================================================== */}
           <div className="cc-reg-floating-cards">
-            {/* Card 1: Meeting Card */}
+            {/* =================================================
+                CARD 1
+            ================================================= */}
             <div className="cc-reg-float-card cc-reg-float-card-1">
               <div className="cc-reg-card-header">
                 <span className="cc-reg-card-icon">
                   <Icons.Clock />
                 </span>
+
                 <span className="cc-reg-card-label">Upcoming Sync</span>
               </div>
+
               <h4 className="cc-reg-card-title">
                 Sprint Architecture & Planning
               </h4>
+
               <p className="cc-reg-card-sub">
-                <Icons.Calendar /> Today, 10:30 AM • Conf Room A
+                <Icons.Calendar />
+                Today, 10:30 AM • Conf Room A
               </p>
             </div>
 
-            {/* Card 2: Task / Productivity Card */}
+            {/* =================================================
+                CARD 2
+            ================================================= */}
             <div className="cc-reg-float-card cc-reg-float-card-2">
               <div className="cc-reg-card-header">
                 <span className="cc-reg-card-icon">
                   <Icons.TrendingUp />
                 </span>
+
                 <span className="cc-reg-card-label">Capacity Utilization</span>
               </div>
+
               <div className="cc-reg-stat-row">
                 <span className="cc-reg-stat-val">94.2%</span>
+
                 <span className="cc-reg-stat-badge">+18.4%</span>
               </div>
+
               <div className="cc-reg-progress-track">
                 <div
                   className="cc-reg-progress-fill"
@@ -683,44 +1141,56 @@ export default function Register({
               </div>
             </div>
 
-            {/* Card 3: Calendar / Milestone Card */}
+            {/* =================================================
+                CARD 3
+            ================================================= */}
             <div className="cc-reg-float-card cc-reg-float-card-3">
               <div className="cc-reg-card-header">
                 <span className="cc-reg-card-icon">
                   <Icons.Calendar />
                 </span>
+
                 <span className="cc-reg-card-label">Milestone Active</span>
               </div>
+
               <h4 className="cc-reg-card-title">SIH Hackathon Phase 1</h4>
+
               <p className="cc-reg-card-sub">
                 All deliverables submitted on track
               </p>
             </div>
 
-            {/* Card 4: Small Avatar Circles */}
+            {/* =================================================
+                CARD 4
+            ================================================= */}
             <div className="cc-reg-float-card cc-reg-float-card-4">
               <div className="cc-reg-card-header">
                 <span className="cc-reg-card-icon">
                   <Icons.Users />
                 </span>
+
                 <span className="cc-reg-card-label">Collaborators</span>
               </div>
+
               <div className="cc-reg-avatar-cluster">
                 <img
                   src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
                   alt="Avatar"
                   className="cc-reg-avatar-circle"
                 />
+
                 <img
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
                   alt="Avatar"
                   className="cc-reg-avatar-circle"
                 />
+
                 <img
                   src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"
                   alt="Avatar"
                   className="cc-reg-avatar-circle"
                 />
+
                 <span className="cc-reg-avatar-counter">+12</span>
               </div>
             </div>

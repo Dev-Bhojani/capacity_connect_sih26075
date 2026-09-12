@@ -22,7 +22,7 @@ import QuizDetails from "../Pages/Trainer/QuizDetails/QuizDetails";
 import TrainerAttendance from "../Pages/Trainer/TrainerAttendance/TrainerAttendance";
 import TrainerPerformance from "../Pages/Trainer/TrainerPerformance/TrainerPerformance";
 import TrainerSchedule from "../Pages/Trainer/TrainerSchedule/TrainerSchedule";
-
+import TrainerProfile from "../Pages/Trainer/TrainerProfile/TrainerProfile";
 
 const TrainerRoutes = () => {
   return (
@@ -73,6 +73,12 @@ const TrainerRoutes = () => {
         ======================================== */}
 
         <Route path="trainer-schedule" element={<TrainerSchedule />} />
+
+        {/* ========================================
+            Trainer Profile
+        ======================================== */}
+
+        <Route path="trainer-profile" element={<TrainerProfile />} />
       </Route>
     </Routes>
   );

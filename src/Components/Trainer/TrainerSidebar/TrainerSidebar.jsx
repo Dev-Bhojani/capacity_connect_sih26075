@@ -5,11 +5,9 @@ import {
   LuUsers,
   LuBookOpen,
   LuClipboardCheck,
-  LuClipboardList,
   LuCalendarCheck,
   LuChartNoAxesCombined,
   LuCalendarDays,
-  LuBell,
   LuUserRound,
   LuHeadphones,
   LuArrowLeftRight,
@@ -41,11 +39,6 @@ const TrainerSidebar = () => {
       icon: LuClipboardCheck,
     },
     {
-      label: "Trainer Assignments",
-      path: "/trainer/trainer-assignments",
-      icon: LuClipboardList,
-    },
-    {
       label: "Trainer Attendance",
       path: "/trainer/trainer-attendance",
       icon: LuCalendarCheck,
@@ -59,12 +52,6 @@ const TrainerSidebar = () => {
       label: "Trainer Schedule",
       path: "/trainer/trainer-schedule",
       icon: LuCalendarDays,
-    },
-    {
-      label: "Trainer Notifications",
-      path: "/trainer/trainer-notifications",
-      icon: LuBell,
-      badge: 3,
     },
     {
       label: "Trainer Profile",

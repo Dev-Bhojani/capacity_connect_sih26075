@@ -18,6 +18,11 @@ import LearnerRoutes from "./routes/LearnerRoutes";
 // ================================
 import TrainerRoutes from "./routes/TrainerRoutes";
 
+// ================================
+// ADMIN ROUTES
+// ================================
+import AdminRoutes from "./routes/AdminRoutes";
+
 function App() {
   return (
     <BrowserRouter>
@@ -55,46 +60,19 @@ function App() {
             LEARNER APPLICATION
         ======================================== */}
 
-        {/*
-          All learner routes are handled
-          inside LearnerRoutes.jsx
-
-          Examples:
-          /learner
-          /learner/dashboard
-          /learner/learning
-          /learner/courses
-          /learner/skills
-          /learner/skill-gaps
-          /learner/recommendations
-          /learner/certificates
-          /learner/knowledge-hub
-          /learner/profile
-          /learner/settings
-        */}
         <Route path="/learner/*" element={<LearnerRoutes />} />
 
         {/* ========================================
             TRAINER APPLICATION
         ======================================== */}
 
-        {/*
-          All trainer routes are handled
-          inside TrainerRoutes.jsx
-
-          Examples:
-          /trainer
-          /trainer/trainer-learners
-          /trainer/trainer-courses
-          /trainer/trainer-quizzes
-          /trainer/trainer-assignments
-          /trainer/trainer-attendance
-          /trainer/trainer-performance
-          /trainer/trainer-schedule
-          /trainer/trainer-notifications
-          /trainer/trainer-profile
-        */}
         <Route path="/trainer/*" element={<TrainerRoutes />} />
+
+        {/* ========================================
+            ADMIN APPLICATION
+        ======================================== */}
+
+        <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
     </BrowserRouter>
   );
